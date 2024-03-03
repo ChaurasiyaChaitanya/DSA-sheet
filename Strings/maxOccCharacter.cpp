@@ -21,17 +21,19 @@ char getMaxOccCharacter(string s) {
             maxOcc = arr[i];
         }
     }
-    
 
     return 'a'+ans;
-
 }
 
 int main() {
 
+    cout << "Enter a String : " << endl;
+
     string s;
 
     cin >> s;
+
+    cout << "Maximum Occurred Character - " << endl;
 
     cout << getMaxOccCharacter(s) << endl;
 
