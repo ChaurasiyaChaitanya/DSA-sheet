@@ -1,0 +1,25 @@
+class Solution {
+    public double myPow(double x, int n) {
+        double result = 1.0;
+        long nPow = n;
+
+        if(n < 0) {
+            nPow = nPow * -1;
+        }
+
+        while(nPow > 0) {
+            if(nPow % 2 == 0) {
+                x *= x;
+                nPow /= 2;
+            } else {
+                result *= x;
+                nPow--;
+            }
+        }
+        if(n < 0) {
+            result = 1.0 / result;
+        }
+
+        return result;
+    }
+}
