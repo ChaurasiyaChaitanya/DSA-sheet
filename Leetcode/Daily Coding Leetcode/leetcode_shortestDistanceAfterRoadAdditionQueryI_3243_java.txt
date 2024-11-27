@@ -1,0 +1,43 @@
+class Solution {
+    public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+        int[] distance = new int[n];
+        for(int i=0; i<n; ++i) {
+            distance[i] = n-i-1;
+        }
+
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i=0; i<n; ++i) {
+            graph.add(new ArrayList<>());
+        }
+
+        for(int i=0; i+1<n; ++i) {
+            graph.get(i+1).add(i);
+        }
+
+        int[] result = new int[queries.length];
+        int idx = 0;
+
+        for(int[] query : queries) {
+            int s = query[0], t = query[1];
+
+            graph.get(t).add(s);
+            distance[s] = Math.min(distance[s], distance[t]+1);
+            updateDistance(graph, s, distance);
+
+            result[idx++] = distance[0];
+        }
+
+        return result;
+    }
+
+    private void updateDistance(List<List<Integer>> graph, int s, int[] distance) {
+        int newDistance = distance[s] + 1;
+
+        for(int i : graph.get(s)) {
+            if(distance[i] <= newDistance) continue;
+
+            distance[i] = newDistance;
+            updateDistance(graph, i, distance);
+        }
+    }
+}
