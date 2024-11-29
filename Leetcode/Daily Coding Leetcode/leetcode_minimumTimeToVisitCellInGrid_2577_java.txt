@@ -1,0 +1,44 @@
+class Solution {
+    public int minimumTime(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+
+        if(grid[1][0] > 1 && grid[0][1] > 1) {
+            return -1;
+        }
+
+        int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+        boolean[][] visited = new boolean[m][n];
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+        pq.add(new int[]{0, 0, 0});
+
+        while(!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int time = current[0], row = current[1], col = current[2];
+
+            if(row == m-1 && col == n-1) return time;
+
+            if(visited[row][col]) continue;
+
+            visited[row][col] = true;
+
+            for(int[] dir : directions) {
+                int nextRow = row + dir[0], nextCol = col + dir[1];
+
+                if(!isValid(visited, nextRow, nextCol)) continue;
+
+                int waitTime = ((grid[nextRow][nextCol] - time) % 2 == 0) ? 1 : 0;
+
+                int nextTime = Math.max(grid[nextRow][nextCol] + waitTime, time + 1);
+
+                pq.add(new int[]{nextTime, nextRow, nextCol});
+            }
+        }
+
+        return -1;
+    }
+
+    private boolean isValid(boolean[][] visited, int row, int col) {
+        return (row >= 0 && col >= 0 && row < visited.length && col < visited[0].length && !visited[row][col]);
+    }
+}
