@@ -1,0 +1,17 @@
+class Solution {
+    public int maximumBeauty(int[] nums, int k) {
+        Arrays.sort(nums);
+        
+        int n = nums.length, maxBeauty = 0, start = 0;
+
+        for(int end=0; end<n; end++) {
+            while(nums[end] - nums[start] > 2*k) {
+                start++;
+            }
+
+            maxBeauty = Math.max(maxBeauty, end - start + 1);
+        }
+
+        return maxBeauty;
+    }
+}
