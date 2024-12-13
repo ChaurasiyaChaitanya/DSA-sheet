@@ -1,0 +1,36 @@
+class Solution {
+    public long findScore(int[] nums) {
+
+        int[][] sorted = new int[nums.length][2];
+        boolean[] marked = new boolean[nums.length];
+
+        long result = 0;
+
+        for(int i=0; i<nums.length; i++) {
+            sorted[i][0] = nums[i];
+            sorted[i][1] = i;
+        }
+
+        Arrays.sort(sorted, (a, b) -> a[0] - b[0]);
+
+        for(int[] arr : sorted) {
+            int num = arr[0];
+            int idx = arr[1];
+
+            if(!marked[idx]) {
+                result += num;
+                marked[idx] = true;
+                
+                if(idx > 0) {
+                    marked[idx-1] = true;
+                }
+
+                if(idx < nums.length-1) {
+                    marked[idx+1] = true;
+                }
+            }
+        }
+
+        return result;
+    }
+}
