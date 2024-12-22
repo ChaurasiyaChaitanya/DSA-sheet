@@ -1,0 +1,47 @@
+class Solution {
+    public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
+        int n = heights.length;
+        int[] result = new int[queries.length];
+
+        Arrays.fill(result, -1);
+
+        List<List<int[]>> queryList = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            queryList.add(new ArrayList<>());
+        }
+
+        for(int i=0; i<queries.length; i++) {
+            int alice = queries[i][0], bob = queries[i][1];
+
+            if(alice > bob) {
+                int temp = alice;
+                alice = bob;
+                bob = temp;
+            }
+
+            if(alice == bob || heights[alice] < heights[bob]) {
+                result[i] = bob;
+            } else {
+                queryList.get(bob).add(new int[]{heights[alice], i});
+            }
+        }
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+
+        for(int i=0; i<n; i++) {
+            int height = heights[i];
+
+            for(int[] query : queryList.get(i)) {
+                minHeap.add(query);
+            }
+
+            while(!minHeap.isEmpty() && minHeap.peek()[0] < height) {
+                int[] query = minHeap.poll();
+                int queryIndex = query[1];
+                result[queryIndex] = i;
+            }
+        }
+
+        return result;
+    }
+}
