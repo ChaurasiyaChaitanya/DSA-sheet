@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+----------
+
+class Solution {
+    public int pairSum(ListNode head) {
+        List<Integer> lst = new ArrayList<>();
+        while(head != null) {
+            lst.add(head.val);
+            head = head.next;
+        }
+        int i = 0, j = lst.size()-1, sum = 0, result = 0;
+        while(i < j) {
+            sum = lst.get(i) + lst.get(j);
+            result = Math.max(result, sum);
+            i++;
+            j--;
+        }
+
+        return result;
+    }
+}
