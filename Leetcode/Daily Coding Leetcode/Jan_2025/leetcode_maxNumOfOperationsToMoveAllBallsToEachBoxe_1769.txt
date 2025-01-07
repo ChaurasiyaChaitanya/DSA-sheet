@@ -1,0 +1,28 @@
+class Solution {
+    public int[] minOperations(String boxes) {
+        int n = boxes.length();
+        int[] result = new int[n];
+
+        int sum = 0, rightBalls = 0, leftBalls = 0;
+
+        for(int i=0; i<n; i++) {
+            if(boxes.charAt(i) == '1') {
+                sum += i;
+                rightBalls++;
+            }
+        }
+
+        int prefixSum = 0;
+        for(int i=0; i<n; i++) {
+            result[i] = sum + prefixSum;
+            if(boxes.charAt(i) == '1') {
+                leftBalls++;
+                rightBalls--;
+            }
+            sum -= rightBalls;
+            prefixSum += leftBalls;
+        }
+
+        return result;
+    }
+}
