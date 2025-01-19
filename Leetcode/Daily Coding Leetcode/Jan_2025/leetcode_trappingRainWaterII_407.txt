@@ -1,0 +1,58 @@
+class Solution {
+    public int trapRainWater(int[][] heightMap) {
+        
+        // Base case
+        if(heightMap == null || heightMap.length == 0 || heightMap[0].length == 0) 
+            return 0;
+
+        int m = heightMap.length;
+        int n = heightMap[0].length;
+
+        // Need minimum 3*3 matrix to hold the water
+        if(m < 3 || n < 3) 
+            return 0;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        boolean[][] visited = new boolean[m][n];
+
+        // Push all border cells 
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(i == 0 || i == m-1 || j == 0 || j == n-1) {
+                    pq.offer(new int[]{heightMap[i][j], i, j});
+                    visited[i][j] = true;
+                }
+            }
+        }
+
+        int level = 0;
+        int trappedWater = 0;
+        int[] dir = {-1, 0, 1, 0, -1};
+
+        while(!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int height = curr[0], x = curr[1], y = curr[2];
+            level = Math.max(level, height);
+
+            for(int i=0; i<4; i++) {
+                int nx = x + dir[i];
+                int ny = y + dir[i+1];
+
+                if(isValid(nx, ny, m, n) && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    pq.offer(new int[]{heightMap[nx][ny], nx, ny});
+
+                    if(heightMap[nx][ny] < level) {
+                        trappedWater += level - heightMap[nx][ny];
+                    }
+                }
+            }
+        }
+
+        return trappedWater;
+    }
+
+    private static boolean isValid(int x, int y, int m, int n) {
+        return x >= 0 && x < m && y >= 0 && y < n;
+    }
+}
