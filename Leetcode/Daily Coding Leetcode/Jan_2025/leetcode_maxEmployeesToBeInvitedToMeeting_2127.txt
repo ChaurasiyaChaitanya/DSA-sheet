@@ -1,0 +1,50 @@
+class Solution {
+    public int maximumInvitations(int[] favorite) {
+        int n = favorite.length;
+        int[] indegree = new int[n];
+        int[] queue = new int[n];
+        int[] depth = new int[n];
+
+        for(int i=0; i<n; i++) {
+            indegree[favorite[i]]++;
+        }
+
+        int left = 0, right = 0;
+        for(int i=0; i<n; i++) {
+            if(indegree[i] == 0) {
+                queue[right++] = i;
+            }
+        }
+
+        while(left < right) {
+            int curr = queue[left++];
+            int next = favorite[curr];
+
+            depth[next] = Math.max(depth[next], depth[curr] + 1);
+
+            if(--indegree[next] == 0) 
+                queue[right++] = next;
+        }
+
+        int smallCir = 0, bigCir = 0;
+        for(int i=0; i<n; i++) {
+            if(indegree[i] != 0) {
+                indegree[i] = 0;
+                int count = 1;
+
+                for(int j = favorite[i]; j != i; j = favorite[j]) {
+                    count++;
+                    indegree[j] = 0;
+                }
+
+                if(count == 2) {
+                    smallCir += depth[i] + depth[favorite[i]] + 2;
+                } else {
+                    bigCir = Math.max(bigCir, count);
+                }
+            }
+        }
+
+        return Math.max(bigCir, smallCir);
+    }
+}
