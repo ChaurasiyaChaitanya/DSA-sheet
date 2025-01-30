@@ -1,0 +1,98 @@
+class Solution {
+    public int magnificentSets(int n, int[][] edges) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        n++; // 1 based indexing
+
+        for(int i=0; i<n; i++) {
+            adjList.add(new ArrayList<>());
+        }  
+
+        for(int[] edge : edges) {
+            adjList.get(edge[0]).add(edge[1]);
+            adjList.get(edge[1]).add(edge[0]);
+        } 
+
+        if(!isBipartite(adjList, n)) return -1;
+
+        int[] bfsDepth = new int[n];
+        for(int i=1; i<n; i++) {
+            bfsDepth[i] = findBfsDepth(adjList, i);
+        }
+
+        int[] visited = new int[n];
+        int result = 0;
+        for(int i=1; i<n; i++) {
+            if(visited[i] == 0) {
+                result += dfs(adjList, visited, bfsDepth, i);
+            }
+        }
+
+        return result;
+    }
+
+    private int dfs(List<List<Integer>> adjList, int[] visited, int[] bfsDepth, int node) {
+        visited[node] = 1;
+        int maxDepth = bfsDepth[node];
+
+        for(int nbr : adjList.get(node)) {
+            if(visited[nbr] == 0) {
+                maxDepth = Math.max(maxDepth, dfs(adjList, visited, bfsDepth, nbr));
+            }
+        }
+
+        return maxDepth;
+    }
+
+    private int findBfsDepth(List<List<Integer>> adjList, int start) {
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{start, 1});
+        int[] visited = new int[adjList.size()];
+        visited[start] = 1;
+        int[] last = new int[2];
+
+        while(!q.isEmpty()) {
+            last = q.poll();
+            for(int nbr : adjList.get(last[0])) {
+                if(visited[nbr] == 0) {
+                    visited[nbr] = 1;
+                    q.add(new int[]{nbr, last[1] + 1});
+                }
+            }
+        }
+
+        return last[1];
+    }
+
+    private boolean isBipartite(List<List<Integer>> adjList, int n) {
+        int[] color = new int[n];
+        for(int i=0; i<n; i++) {
+            if(color[i] == 0 && !bfsCheck(adjList, color, i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean bfsCheck(List<List<Integer>> adjList, int[] color, int node) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(node);
+        color[node] = 1;
+
+        while(!q.isEmpty()) {
+            int curr = q.poll();
+            int next = color[curr] == 1 ? 2 : 1;
+
+            for(int nbr : adjList.get(curr)) {
+                if(color[nbr] == 0) {
+                    color[nbr] = next;
+                    q.add(nbr);
+                } else if(color[nbr] != next) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
