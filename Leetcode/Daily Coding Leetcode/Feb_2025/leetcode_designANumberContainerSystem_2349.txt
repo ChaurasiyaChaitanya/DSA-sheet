@@ -1,0 +1,37 @@
+class NumberContainers {
+    private Map<Integer, Integer> idxNumMap;
+    private Map<Integer, TreeSet<Integer>> numIdxMap;
+
+    public NumberContainers() {
+        idxNumMap = new HashMap<>();
+        numIdxMap = new HashMap<>();
+    }
+    
+    public void change(int index, int number) {
+        if(idxNumMap.containsKey(index)) {
+            int num = idxNumMap.get(index);
+            numIdxMap.get(num).remove(index);
+
+            if(numIdxMap.get(num).isEmpty()) {
+                numIdxMap.remove(num);
+            }
+        }
+
+        idxNumMap.put(index, number);
+        numIdxMap.computeIfAbsent(number, k -> new TreeSet<>()).add(index);
+    }
+    
+    public int find(int number) {
+        if(!numIdxMap.containsKey(number))
+            return -1; 
+
+        return numIdxMap.get(number).first();
+    }
+}
+
+/**
+ * Your NumberContainers object will be instantiated and called as such:
+ * NumberContainers obj = new NumberContainers();
+ * obj.change(index,number);
+ * int param_2 = obj.find(number);
+ */ 
