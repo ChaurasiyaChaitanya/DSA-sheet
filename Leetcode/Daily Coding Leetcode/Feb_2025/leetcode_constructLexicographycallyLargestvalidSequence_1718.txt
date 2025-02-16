@@ -1,0 +1,48 @@
+class Solution {
+    public int[] constructDistancedSequence(int n) {
+        int[] result = new int[2*n-1];
+        boolean[] isUsed = new boolean[n+1];
+
+        backtrack(result, isUsed, n, 0);
+        return result;
+    }
+
+    private boolean backtrack(int[] result, boolean[] isUsed, int n, int idx) {
+        while(idx < result.length && result[idx] != 0) 
+            idx++;
+
+        if(idx == result.length)
+            return true;
+
+        for(int i=n; i>=1; i--) {
+            if(isUsed[i])
+                continue;
+            
+            if(i == 1) {
+                result[idx] = 1;
+                isUsed[1] = true;
+
+                if(backtrack(result, isUsed, n, idx + 1))
+                    return true;
+                
+                result[idx] = 0;
+                isUsed[1] = false;
+            } else {
+                if(idx + i < result.length && result[idx + i] == 0) {
+                    result[idx] = i;
+                    result[idx+i] = i;
+                    isUsed[i] = true;
+
+                    if(backtrack(result, isUsed, n, idx + 1))
+                        return true;
+
+                    result[idx] = 0;
+                    result[idx+i] = 0;
+                    isUsed[i] = false;
+                }
+            }
+        }
+
+        return false;
+    }
+}
