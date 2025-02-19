@@ -1,0 +1,26 @@
+class Solution {
+    public String getHappyString(int n, int k) {
+        List<String> list = new ArrayList<>();
+        Queue<String> queue = new LinkedList<>();
+
+        queue.offer("a");
+        queue.offer("b");
+        queue.offer("c");
+
+        while(!queue.isEmpty()) {
+            String curr = queue.poll();
+            if(curr.length() == n) {
+                list.add(curr);
+                continue;
+            }
+
+            for(char ch : new char[]{'a', 'b', 'c'}) {
+                if(curr.charAt(curr.length()-1) != ch) {
+                    queue.offer(curr + ch);
+                }
+            }
+        }
+
+        return k > list.size() ? "" : list.get(k-1);
+    }
+}
