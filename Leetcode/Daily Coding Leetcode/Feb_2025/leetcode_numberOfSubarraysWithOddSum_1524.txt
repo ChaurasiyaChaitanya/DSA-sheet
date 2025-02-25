@@ -1,0 +1,21 @@
+class Solution {
+    public int numOfSubarrays(int[] arr) {
+        int MOD = 1000000007;
+        int oddCount = 0;
+        int evenCount = 1; // prefix sum of 0 is even
+        int total = 0, prefixSum = 0;
+
+        for(int ele : arr) {
+            prefixSum += ele;
+            if((prefixSum & 1) == 1) {
+                total = (total + evenCount) % MOD;
+                oddCount++;
+            } else {
+                total = (total + oddCount) % MOD;
+                evenCount++;
+            }
+        }
+
+        return total;
+    }
+}
