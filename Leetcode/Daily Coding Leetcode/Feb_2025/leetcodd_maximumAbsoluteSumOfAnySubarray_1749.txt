@@ -1,0 +1,13 @@
+class Solution {
+    public int maxAbsoluteSum(int[] nums) {
+        int minPoint = 0, maxPoint = 0, prefixSum = 0;
+
+        for(int num : nums) {
+            prefixSum += num;
+            minPoint = Math.min(minPoint, prefixSum);
+            maxPoint = Math.max(maxPoint, prefixSum);
+        }
+
+        return maxPoint - minPoint;
+    }
+}
