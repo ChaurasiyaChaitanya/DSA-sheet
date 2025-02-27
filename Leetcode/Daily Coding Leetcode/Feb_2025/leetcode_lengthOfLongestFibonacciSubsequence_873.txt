@@ -1,0 +1,26 @@
+class Solution {
+    public int lenLongestFibSubseq(int[] arr) {
+        int n = arr.length;
+        int[][] dp = new int[n][n];
+        int longestLen = 0;
+
+        for(int i=2; i<n; i++) {
+            int j = 0;
+            int k = i - 1;
+            while(j < k) {
+                if(arr[j] + arr[k] < arr[i]) {
+                    j++;
+                } else if(arr[j] + arr[k] > arr[i]) {
+                    k--;
+                } else {
+                    dp[k][i] = 1 + dp[j][k];
+                    longestLen = Math.max(longestLen, dp[k][i]);
+                    j++;
+                    k--;
+                }
+            }
+        }
+
+        return longestLen == 0 ? 0 : 2 + longestLen;
+    }
+}
