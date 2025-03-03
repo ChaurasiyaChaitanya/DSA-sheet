@@ -1,0 +1,26 @@
+class Solution {
+    public int[] pivotArray(int[] nums, int pivot) {
+        int n = nums.length;
+        int[] result = new int[n];
+
+        int left = 0, right = n-1;
+        int i = 0, j = n-1;
+
+        while(left < n) {
+            if(nums[left] < pivot) {
+                result[i++] = nums[left];
+            }
+            if(nums[right] > pivot) {
+                result[j--] = nums[right];
+            }
+            left++;
+            right--;
+        }
+
+        while(i <= j) {
+            result[i++] = pivot;
+        }
+
+        return result;
+    }
+}
