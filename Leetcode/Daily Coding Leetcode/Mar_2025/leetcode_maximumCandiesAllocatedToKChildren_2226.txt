@@ -1,0 +1,31 @@
+class Solution {
+    public int maximumCandies(int[] candies, long k) {
+        long low = 1;
+        long high = Arrays.stream(candies).max().getAsInt();
+        long mid;
+        long result = 0;
+
+        while(low <= high) {
+            mid = low + (high - low) / 2;
+            if(canAssign(candies, mid, k)) {
+                result = Math.max(result, mid);
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return (int) result;
+    }
+
+    private boolean canAssign(int[] candies, long mid, long k) {
+        long count = 0;
+        for(int ele : candies) {
+            if(ele >= mid) {
+                count += ele / mid;
+            }
+        }
+
+        return count >= k;
+    }
+}
