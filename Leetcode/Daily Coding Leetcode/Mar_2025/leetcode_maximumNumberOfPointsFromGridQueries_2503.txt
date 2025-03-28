@@ -1,0 +1,49 @@
+class Solution {
+    public int[] maxPoints(int[][] grid, int[] queries) {
+        int m = grid.length, n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int[] result = new int[queries.length];
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        List<int[]> sortedQueries = new ArrayList<>();
+
+        int[] dir = {-1, 0, 1, 0, -1};
+
+        for(int i=0; i<queries.length; i++) {
+            sortedQueries.add(new int[]{queries[i], i});
+        }
+
+        sortedQueries.sort(Comparator.comparingInt(a -> a[0]));
+
+        minHeap.offer(new int[]{grid[0][0], 0, 0});
+        visited[0][0] = true;
+        int count = 0;
+
+        for(int[] query : sortedQueries) {
+            int val = query[0], idx = query[1];
+
+            while(!minHeap.isEmpty() && minHeap.peek()[0] < val) {
+                int[] curr = minHeap.poll();
+                int x = curr[1], y = curr[2];
+                count++;
+
+                for(int i=0; i<4; i++) {
+                    int nx = x + dir[i];
+                    int ny = y + dir[i+1];
+
+                    if(isValid(nx, ny, m, n) && !visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        minHeap.offer(new int[]{grid[nx][ny], nx, ny});
+                    }
+                }
+            }
+            result[idx] = count;
+        }
+
+        return result;
+    }
+
+    private boolean isValid(int x, int y, int m, int n) {
+        return x >= 0 && x < m && y >= 0 && y < n;
+    }
+}
