@@ -1,0 +1,13 @@
+class Solution {
+    public int subsetXORSum(int[] nums) {
+        int n = nums.length;
+        int bitwiseOR = 0;
+
+        for(int num : nums) {
+            bitwiseOR |= num;
+        }
+
+        return bitwiseOR * (1 << (n - 1));
+
+    }
+}
