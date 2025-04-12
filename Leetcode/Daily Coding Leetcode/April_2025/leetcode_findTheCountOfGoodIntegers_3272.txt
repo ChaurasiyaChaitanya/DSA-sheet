@@ -1,0 +1,79 @@
+class Solution {
+    private long kPalindromes = 0;
+    private Set<Long> counted = new HashSet<>();
+    private long[] fact = new long[11];
+
+    public long countGoodIntegers(int n, int k) {
+        precomputeFactorial(n);
+        StringBuilder num = new StringBuilder();
+        for(int i=0; i<n; i++) {
+            num.append(' ');
+        }
+        generatePalindromes(0, n, num, k);
+
+        return kPalindromes;
+    }
+ 
+    private void precomputeFactorial(int n) {
+        fact[0] = 1;
+        fact[1] = 1;
+        for(int i=2; i<=n; i++) {
+            fact[i] = i * fact[i-1];
+        }
+    }
+
+    private void generatePalindromes(int pos, int n, StringBuilder num, int k) {
+        if(pos >= (n+1)/2) {
+            String numStr = num.toString();
+            if(Long.parseLong(numStr) % k == 0) {
+                kPalindromes += allArrangements(numStr, n);
+            }
+            return;
+        }
+
+        char start = (pos == 0) ? '1' : '0';
+        while(start <= '9') {
+            num.setCharAt(pos, start);
+            num.setCharAt(n-pos-1, start);
+            generatePalindromes(pos+1, n, num, k);
+            start++;
+        }
+        num.setCharAt(pos, ' ');
+    }
+
+    private long countAllPermutations(int[] freq, int n) {
+        long count = fact[n];
+        for(int i=0; i<=9; i++) {
+            count /= fact[freq[i]];
+        }
+
+        return count;
+    }
+
+    private long allArrangements(String num, int n) {
+        char[] numArr = num.toCharArray();
+        Arrays.sort(numArr);
+
+        String sortedStr = new String(numArr);
+        long number = Long.parseLong(sortedStr);
+
+        if(counted.contains(number)) {
+            return 0;
+        }
+        counted.add(number);
+
+        int[] freq = new int[10];
+        for(char c : sortedStr.toCharArray()) {
+            freq[c - '0']++;
+        }
+
+        long totalPerm = countAllPermutations(freq, n);
+        long invalidPerm = 0;
+        if(freq[0] > 0) {
+            freq[0]--;
+            invalidPerm = countAllPermutations(freq, n-1);
+        }
+
+        return totalPerm - invalidPerm;
+    }
+}
