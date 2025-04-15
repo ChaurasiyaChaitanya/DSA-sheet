@@ -1,0 +1,59 @@
+class Solution {
+    private long[] segTree;
+
+    public long goodTriplets(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        segTree = new long[4*n+1];
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<n; i++) {
+            map.put(nums2[i], i);
+        }
+
+        updateSegTree(1, 0, n-1, map.get(nums1[0]));
+
+        long result = 0;
+        for(int i=1; i<n-1; i++) {
+            int idx = map.get(nums1[i]);
+            long cmnLeftEle = rangeSumQuery(1, 0, n-1, 0, idx);
+            long uncmnLeftEle = i - cmnLeftEle;
+            long cmnRightEle = (n-idx-1) - uncmnLeftEle;  
+
+            result += cmnLeftEle * cmnRightEle;
+
+            updateSegTree(1, 0, n-1, idx);
+        }
+
+        return result;
+    }
+
+    private void updateSegTree(int idx, int start, int end, int queryIdx) {
+        if(end < queryIdx || start > queryIdx)
+            return;
+
+        if(start == end) {
+            segTree[idx]++;
+            return;
+        }
+
+        int mid = start + (end - start) / 2;
+        updateSegTree(2*idx, start, mid, queryIdx);
+        updateSegTree(2*idx+1, mid+1, end, queryIdx);
+
+        segTree[idx] = segTree[2*idx] + segTree[2*idx+1];
+    }
+
+    private long rangeSumQuery(int idx, int start, int end, int qs, int qe) {
+        if(qs > end || qe < start) 
+            return 0;
+
+        if(start >= qs && end <= qe) 
+            return segTree[idx];
+
+        int mid = start + (end - start) / 2;
+        long leftSum = rangeSumQuery(2*idx, start, mid, qs, qe);
+        long rightSum = rangeSumQuery(2*idx+1, mid+1, end, qs, qe);
+        
+        return leftSum + rightSum;
+    }
+}
