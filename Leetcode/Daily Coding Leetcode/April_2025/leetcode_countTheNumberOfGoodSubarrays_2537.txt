@@ -1,0 +1,34 @@
+class Solution {
+    public long countGood(int[] nums, int k) {
+        long n = nums.length;
+        long left = 0, right = 0;
+        long result = 0;
+
+        Map<Long, Long> freq = new HashMap<>();
+        long equalPairs = 0;
+
+        while(left < n) {
+            while(right < n && equalPairs < k) {
+                long num = nums[(int)right];
+                freq.put(num, freq.getOrDefault(num, 0L) + 1);
+                if(freq.get(num) >= 2) {
+                    equalPairs += freq.get(num) - 1;
+                }
+                right++;
+            }
+
+            if(equalPairs >= k) {
+                result += n - right + 1;
+            }
+
+            long leftNum = nums[(int)left];
+            freq.put(leftNum, freq.get(leftNum) - 1);
+            if(freq.get(leftNum) > 0) {
+                equalPairs -= freq.get(leftNum);
+            }
+            left++;
+        }
+
+        return result;
+    }
+}
