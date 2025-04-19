@@ -1,0 +1,30 @@
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        int n = nums.length;
+        long result = 0;
+
+        Arrays.sort(nums);
+
+        for(int i=0; i<n; i++) {
+            long low = lowerBound(nums, i+1, n-1, lower-nums[i]);
+            long high = lowerBound(nums, i+1, n-1, upper-nums[i]+1);
+
+            result += (high - low);
+        }
+
+        return result;
+    }
+
+    private long lowerBound(int[] nums, int start, int end, int target) {
+        while(start <= end) {
+            int mid = start + (end - start) / 2;
+            if(nums[mid] >= target) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return start;
+    }
+}
