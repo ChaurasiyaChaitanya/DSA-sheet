@@ -1,0 +1,26 @@
+class Solution {
+    public int numRabbits(int[] answers) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        int count = 0;
+
+        for(int ans : answers) {
+            if(ans == 0) {
+                count += 1;
+            } else {
+                freq.put(ans, freq.getOrDefault(ans, 0) + 1);
+                if(freq.get(ans) == ans + 1) {
+                    count += ans + 1;
+                    freq.put(ans, 0);
+                }
+            }
+        }
+
+        for(int key : freq.keySet()) {
+            if(freq.get(key) > 0) {
+                count += key + 1;
+            } 
+        }
+
+        return count;
+    }
+}
