@@ -1,0 +1,33 @@
+class Solution {
+    public int countCompleteSubarrays(int[] nums) {
+        Set<Integer> unique = new HashSet<>();
+        for(int num : nums) {
+            unique.add(num);
+        }
+
+        int uniqueCount = unique.size();
+
+        int n = nums.length;
+        int left = 0, right = 0;
+        Map<Integer, Integer> freq = new HashMap<>();
+        int result = 0;
+
+        while(left < n) {
+            while(right < n && freq.size() < uniqueCount) {
+                freq.put(nums[right], freq.getOrDefault(nums[right], 0)  + 1);
+                right++;
+            }
+            if(freq.size() < uniqueCount) break;
+
+            result += n - right + 1;
+
+            freq.put(nums[left], freq.get(nums[left]) - 1);
+            if(freq.get(nums[left]) == 0) {
+                freq.remove(nums[left]);
+            }
+            left++;
+        }
+
+        return result;
+    }
+}
