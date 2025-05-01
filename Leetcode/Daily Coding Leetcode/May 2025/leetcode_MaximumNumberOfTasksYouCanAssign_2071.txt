@@ -1,0 +1,61 @@
+class Solution {
+    public int maxTaskAssign(int[] tasks, int[] workers, int pills, int strength) {
+        Arrays.sort(tasks);
+        Arrays.sort(workers);
+
+        int low = 0, high = Math.min(tasks.length, workers.length);
+        int result = 0;
+
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+            if(canAssign(mid, tasks, workers, pills, strength)) {
+                result = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return result;
+    }
+
+    private boolean canAssign(int mid, int[] tasks, int[] workers, int pills, int strength) {
+        if(mid == 0) 
+            return true;
+
+        if(mid > workers.length)
+            return false;
+
+        TreeMap<Integer, Integer> availableWorkers = new TreeMap<>();
+        int n = workers.length;
+        
+        for(int i=n-mid; i<n; i++) {
+            availableWorkers.put(workers[i], availableWorkers.getOrDefault(workers[i], 0) + 1);
+        }
+
+        int pillsCount = 0;
+
+        for(int i=mid-1; i>=0; i--) {
+            int task = tasks[i];
+            Integer currWorker = availableWorkers.floorKey(Integer.MAX_VALUE);
+            if(currWorker != null && currWorker >= task) {
+                decrementCount(availableWorkers, currWorker);
+            } else {
+                Integer weakestWorker = availableWorkers.ceilingKey(task - strength);
+                if(weakestWorker == null || pillsCount >= pills) 
+                    return false;
+                decrementCount(availableWorkers, weakestWorker);
+                pillsCount++;
+            }
+        }
+        return true;
+    }
+
+    private void decrementCount(TreeMap<Integer, Integer> map, int key) {
+        if(map.get(key) == 1) {
+            map.remove(key);
+        } else {
+            map.put(key, map.get(key) - 1);
+        }
+    }
+}
