@@ -1,0 +1,31 @@
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        int result = Integer.MAX_VALUE;
+
+        for(int num=0; num<=6; num++) {
+            int countTops = rotationMatch(num, tops, bottoms);
+            int countBottoms = Integer.MAX_VALUE;
+            if(countTops != Integer.MAX_VALUE) {
+                countBottoms = rotationMatch(num, bottoms, tops);
+            }
+            result = Math.min(result, Math.min(countTops, countBottoms));
+        }
+
+        return result == Integer.MAX_VALUE ? -1 : result;
+    }
+
+    private int rotationMatch(int num, int[] first, int[] second) {
+        int count = 0;
+
+        for(int i=0; i<first.length; i++) {
+            if(first[i] == num)
+                continue;
+            else if(second[i] == num)
+                count++;
+            else
+                return Integer.MAX_VALUE;
+        }
+
+        return count;
+    }
+}
