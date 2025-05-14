@@ -1,0 +1,79 @@
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int lengthAfterTransformations(String s, int t, List<Integer> nums) {
+        int[][] transMatrix = getTransformationMatrix(nums);
+        int[][] poweredMatrix = matrixPow(transMatrix, t);
+
+        int[] freq = new int[26];
+        int[] lengths = new int[26];
+
+        for(char c : s.toCharArray()) {
+            freq[c-'a']++;
+        }
+
+        for(int i=0; i<26; i++) {
+            for(int j=0; j<26; j++) {
+                lengths[j] = (int)((lengths[j] + 1L * freq[i] * poweredMatrix[i][j]) % MOD);
+            }
+        }
+
+        int result = 0;
+        for(int len : lengths) {
+            result = (result + len) % MOD;
+        }
+
+        return result;
+    }
+
+    private int[][] getTransformationMatrix(List<Integer> nums) {
+        int[][] transMatrix = new int[26][26];
+
+        for(int i=0; i<nums.size(); i++) {
+            for(int j=1; j<=nums.get(i); j++) {
+                transMatrix[i][(i+j) % 26]++;
+            }
+        }
+
+        return transMatrix;
+    }
+
+    private int[][] matrixPow(int[][] transMatrix, int t) {
+        if(t == 0)
+            return getIdentityMatrix(transMatrix.length);
+
+        if(t % 2 == 1)
+            return matrixMultiplication(transMatrix, matrixPow(transMatrix, t-1));
+
+        int[][] half = matrixPow(transMatrix, t/2);
+
+        return matrixMultiplication(half, half);
+    }
+
+    private int[][] getIdentityMatrix(int n) {
+        int[][] identityMatrix = new int[n][n];
+
+        for(int i=0; i<n; i++) {
+            identityMatrix[i][i] = 1;
+        }
+
+        return identityMatrix;
+    }
+
+    private int[][] matrixMultiplication(int[][] matrix1, int[][] matrix2) {
+        int n = matrix1.length;
+        int[][] multiMatrix = new int[n][n];
+
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                long sum = 0;
+                for(int k=0; k<n; k++) {
+                    sum = (sum + 1L * matrix1[i][k] * matrix2[k][j]) % MOD;
+                }
+                multiMatrix[i][j] = (int) sum;
+            }
+        }
+
+        return multiMatrix;
+    }
+}
