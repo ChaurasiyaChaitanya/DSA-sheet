@@ -1,0 +1,42 @@
+class Solution {
+    private static final int MOD = 1_000_000_007;
+    private int[][] state = new int[1002][1024];
+
+    public int colorTheGrid(int m, int n) {
+        for (int i = 0; i < state.length; i++) {
+            Arrays.fill(state[i], -1);
+        }
+        
+        return countWays(m, n, 0, 0, 0, 0);
+    }
+
+    private int countWays(int m, int n, int r, int c, int currState, int prevState) {
+        if (c == n) 
+            return 1;
+
+        if (r == m) 
+            return countWays(m, n, 0, c + 1, 0, currState);
+
+        if (r == 0 && state[c][prevState] != -1) 
+            return state[c][prevState];
+        
+        int upColor = 0;
+        if (r > 0) 
+            upColor = currState & 3;
+        
+        int leftColor = (prevState >> ((m - r - 1) * 2)) & 3;
+        
+        int result = 0;
+        for (int color = 1; color <= 3; color++) {
+            if (color != upColor && color != leftColor) {
+                result = (result + countWays(m, n, r + 1, c, (currState << 2) | color, prevState)) % MOD;
+            }
+        }
+        
+        if (r == 0) {
+            state[c][prevState] = result;
+        }
+
+        return result;
+    }
+}
