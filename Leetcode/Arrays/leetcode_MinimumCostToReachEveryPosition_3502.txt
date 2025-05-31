@@ -1,0 +1,16 @@
+class Solution {
+    public int[] minCosts(int[] cost) {
+        int n = cost.length;
+        int minCost = cost[0];
+
+        for(int i=1; i<n; i++) {
+            if(minCost >= cost[i]) {
+                minCost = cost[i];
+            } else {
+                cost[i] = minCost;
+            }
+        }
+
+        return cost;
+    }
+}
