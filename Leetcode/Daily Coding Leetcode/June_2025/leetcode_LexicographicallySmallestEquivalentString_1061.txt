@@ -1,0 +1,39 @@
+class Solution {
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        int[] dsuf = new int[26];
+        Arrays.fill(dsuf, -1);
+
+        for (int i=0; i<s1.length(); i++) {
+            if (s1.charAt(i) == s2.charAt(i)) 
+                continue;
+
+            int px = find(dsuf, s1.charAt(i) - 'a');
+            int py = find(dsuf, s2.charAt(i) - 'a');
+
+            if (px == py) 
+                continue;
+
+            if (px > py) {
+                dsuf[px] = py;
+            } else {
+                dsuf[py] = px;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i=0; i<baseStr.length(); i++) {
+            int ch = find(dsuf, baseStr.charAt(i) - 'a');
+            sb.append((char) (ch + 'a'));
+        }
+
+        return sb.toString();
+    }
+
+    private int find(int[] dsuf, int v) {
+        if (dsuf[v] == -1)
+            return v;
+
+        return dsuf[v] = find(dsuf, dsuf[v]);
+    }
+}
