@@ -1,0 +1,26 @@
+class Solution {
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> result = new ArrayList<>();
+
+        for(int i=1; i<10; i++) {
+            solve(i, n, result);
+        }
+
+        return result;
+    }
+
+    private void solve(int i, int n, List<Integer> result) {
+        if(i > n)
+            return;
+
+        result.add(i);
+
+        for(int j=0; j<10; j++) {
+            int next = i * 10 + j;
+            if(next > n)
+                return;
+
+            solve(next, n, result);
+        }
+    }
+}
