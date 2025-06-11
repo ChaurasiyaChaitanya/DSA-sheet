@@ -1,0 +1,47 @@
+class Solution {
+    public int maxDifference(String s, int k) {
+        int n = s.length();
+        int result = Integer.MIN_VALUE;
+
+        for(char a='0'; a<='4'; a++) {
+            for(char b='0'; b<='4'; b++) {
+                if(a == b)
+                    continue;
+                
+                int[] best = new int[4];
+                Arrays.fill(best, Integer.MAX_VALUE);
+
+                int counta = 0, countb = 0;
+                int preva = 0, prevb = 0;
+
+                int l = -1;
+                for(int r=0; r<n; r++) {
+                    counta += (s.charAt(r) == a) ? 1 : 0;
+                    countb += (s.charAt(r) == b) ? 1 : 0;
+
+                    while(r - l >= k && countb - prevb >= 2) {
+                        int leftStatus = getStatus(preva, prevb);
+                        best[leftStatus] = Math.min(best[leftStatus], preva - prevb);
+
+                        l++;
+                        preva += (s.charAt(l) == a) ? 1 : 0;
+                        prevb += (s.charAt(l) == b) ? 1 : 0;
+                    }
+
+                    int rightStatus = getStatus(counta, countb);
+                    int reqStatus = rightStatus ^ 0b10;
+
+                    if(best[reqStatus] != Integer.MAX_VALUE) {
+                        result = Math.max(result, counta - countb - best[reqStatus]);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private int getStatus(int counta, int countb) {
+        return ((counta & 1) << 1 | (countb & 1));
+    }
+}
