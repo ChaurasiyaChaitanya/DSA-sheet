@@ -1,0 +1,16 @@
+class Solution {
+    public char kthCharacter(int k) {
+        String word = "ab"; // after 1st operation a becomes ab
+
+        while(word.length() < k) {
+            StringBuilder sb = new StringBuilder();
+            for(char c : word.toCharArray()) {
+                sb.append((char) ((c-'a'+1) % 26 + 'a'));
+            }
+
+            word += sb.toString();
+        }
+
+        return word.charAt(k-1);
+    }
+}
