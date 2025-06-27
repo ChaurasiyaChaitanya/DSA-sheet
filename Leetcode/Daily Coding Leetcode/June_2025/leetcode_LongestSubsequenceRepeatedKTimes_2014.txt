@@ -1,0 +1,50 @@
+class Solution {
+    public String longestSubsequenceRepeatedK(String s, int k) {
+        int[] freq = new int[26];
+
+        for(char c : s.toCharArray()) {
+            freq[c-'a']++;
+        }
+
+        String curr = "";
+        Queue<String> q = new LinkedList<>();
+        q.offer(curr);
+
+        String result = "";
+        while(!q.isEmpty()) {
+            curr = q.poll();
+
+            for(char c='a'; c<='z'; c++) {
+                if(freq[c-'a'] < k)
+                    continue;
+                
+                String next = curr + c;
+                if(countSubsequences(s, next) >= k) {
+                    result = next;
+                    q.offer(next);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private int countSubsequences(String s, String next) {
+        int m = s.length(), n = next.length();
+        int i=0, j=0;
+        int count = 0;
+
+        while(i < m) {
+            if(s.charAt(i) == next.charAt(j)) {
+                j++;
+                if(j == n) {
+                    count++;
+                    j = 0;
+                }
+            }
+            i++;
+        }
+
+        return count;
+    }
+}
