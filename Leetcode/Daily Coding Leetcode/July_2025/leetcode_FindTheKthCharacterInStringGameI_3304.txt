@@ -1,0 +1,13 @@
+class Solution {
+    public char kthCharacter(int k) {
+        StringBuilder word = new StringBuilder("ab");
+
+        while(word.length() < k) {
+            for(char c : word.toString().toCharArray()) {
+                word.append((char) ((c-'a'+1) % 26 + 'a'));
+            }
+        }
+
+        return word.charAt(k-1);
+    }
+}
