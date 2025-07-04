@@ -1,0 +1,17 @@
+class Solution {
+    public boolean canAliceWin(int[] nums) {
+        int oneDigitSum = 0;
+        int twoDigitSum = 0;
+
+        for(int num : nums) {
+            // int digit = (int) Math.floor(Math.log(num) / Math.log(10)) + 1;
+            if(num < 10) {
+                oneDigitSum += num;
+            } else {
+                twoDigitSum += num;
+            }
+        }
+
+        return oneDigitSum != twoDigitSum;
+    }
+}

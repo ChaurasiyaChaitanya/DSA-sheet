@@ -1,0 +1,31 @@
+class Solution {
+    public char kthCharacter(long k, int[] operations) {
+        int count = 0;
+        long val = k;
+        
+        while(val > 1) {
+            int jumps = (int) Math.ceil(Math.log(val) / Math.log(2));
+            val -= (long) Math.pow(2, jumps-1);
+            count += operations[jumps-1];
+        }
+
+        return (char) ((count % 26) + 'a');
+        
+        // StringBuilder word = new StringBuilder("a");
+
+        // while(word.length() < k) {
+        //     for(int op : operations) {
+        //         for(char c : word.toString().toCharArray()) {
+        //             if(op == 0) {
+        //                 word.append(word.toString());
+        //                 break;
+        //             } else {
+        //                 word.append((char) ((c-'a'+1) % 26 + 'a'));
+        //             }
+        //         }
+        //     }
+        // }
+
+        // return word.charAt((int) k - 1);
+    }
+}
