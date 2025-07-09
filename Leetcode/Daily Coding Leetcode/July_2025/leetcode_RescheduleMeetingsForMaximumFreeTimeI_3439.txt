@@ -1,0 +1,30 @@
+class Solution {
+    public int maxFreeTime(int eventTime, int k, int[] startTime, int[] endTime) {
+        int n = startTime.length;
+        int[] freeArray = new int[n+1];
+
+        freeArray[0] = startTime[0];
+
+        for(int i=1; i<n; i++) {
+            freeArray[i] = startTime[i] - endTime[i-1];
+        }
+
+        freeArray[n] = eventTime - endTime[n-1];
+
+        int sum = 0, maxSum = 0;
+        int i = 0;
+
+        for(int j=0; j<freeArray.length; j++) {
+            sum += freeArray[j];
+            
+            if(j - i + 1 > k + 1) {
+                sum -= freeArray[i];
+                i++;
+            }
+
+            maxSum = Math.max(maxSum, sum);
+        }
+
+        return maxSum;
+    }
+}
