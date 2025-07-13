@@ -1,0 +1,22 @@
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        int prod = 1;
+
+        // left to right - excluding self
+        for(int i=0; i<n; i++) {
+            result[i] = prod;
+            prod *= nums[i];
+        }
+
+        prod = 1;
+        // right to left - excluding self
+        for(int i=n-1; i>=0; i--) {
+            result[i] *= prod;
+            prod *= nums[i];
+        }
+
+        return result;
+    }
+}
