@@ -1,0 +1,25 @@
+class Solution {
+    public int maximumLength(int[] nums) {
+        int n = nums.length;
+        int oddCount = nums[0] % 2 == 1 ? 1 : 0;
+        int evenCount = nums[0] % 2 == 0 ? 1 : 0;
+
+        int alternateCount = 1;
+        boolean oddFlag = (nums[0] % 2 == 1) ? true : false;
+
+        for(int i=1; i<n; i++) {
+            if((oddFlag == true && nums[i] % 2 == 0) || (oddFlag == false && nums[i] % 2 == 1)) {
+                alternateCount++;
+                oddFlag = !oddFlag;
+            }
+
+            if(nums[i] % 2 == 1) {
+                oddCount++;
+            } else {
+                evenCount++;
+            }
+        }
+
+        return Math.max(Math.max(evenCount, oddCount), alternateCount);
+    }
+}
