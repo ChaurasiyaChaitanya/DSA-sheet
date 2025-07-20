@@ -1,0 +1,87 @@
+class Solution {
+    class TrieNode {
+        String node;
+        Map<String, TrieNode> map = new HashMap<>();
+        boolean isRemoved = false;
+
+        TrieNode(String node) {
+            this.node = node;
+        }
+    }
+
+    TrieNode root;
+
+    public List<List<String>> deleteDuplicateFolder(List<List<String>> paths) {
+        root = new TrieNode("*");
+
+        for (List<String> list : paths) {
+            insertIntoTrie(root, list);
+        }
+
+        HashMap<String, TrieNode> visited = new HashMap<>();
+        markRepeated(root, visited);
+
+        List<List<String>> result = new ArrayList<>();
+        List<String> currPath = new ArrayList<>();
+
+        for (Map.Entry<String, TrieNode> entry : root.map.entrySet()) {
+            savePath(entry.getValue(), currPath, result);
+        }
+
+        return result;
+    }
+
+    public void insertIntoTrie(TrieNode root, List<String> lists) {
+        TrieNode curr = root;
+
+        for (String str : lists) {
+            if (!curr.map.containsKey(str)) {
+                TrieNode newNode = new TrieNode(str);
+                curr.map.put(str, newNode);
+                curr = curr.map.get(str);
+            } else {
+                curr = curr.map.get(str);
+            }
+        }
+    }
+
+    public String markRepeated(TrieNode root, HashMap<String, TrieNode> visited) {
+        List<String> childrenSignatures = new ArrayList<>();
+
+        for (Map.Entry<String, TrieNode> entry : root.map.entrySet()) {
+            String childSignature = markRepeated(entry.getValue(), visited);
+            childrenSignatures.add(entry.getKey() + childSignature);
+        }
+
+        Collections.sort(childrenSignatures);
+        String key = String.join("", childrenSignatures);
+
+        if (!key.isEmpty()) {
+            key = "[" + key + "]"; 
+
+            if (visited.containsKey(key)) {
+                root.isRemoved = true;
+                visited.get(key).isRemoved = true;
+            } else {
+                visited.put(key, root);
+            }
+        }
+
+        return key;
+    }
+
+    public void savePath(TrieNode root, List<String> currPath, List<List<String>> result) {
+        if (root.isRemoved) {
+            return;
+        }
+
+        currPath.add(root.node);
+        result.add(new ArrayList<>(currPath));
+
+        for (Map.Entry<String, TrieNode> entry : root.map.entrySet()) {
+            savePath(entry.getValue(), currPath, result);
+        }
+
+        currPath.remove(currPath.size() - 1);
+    }
+}
