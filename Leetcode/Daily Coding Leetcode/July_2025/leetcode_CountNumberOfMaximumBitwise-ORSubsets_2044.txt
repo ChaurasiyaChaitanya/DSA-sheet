@@ -1,0 +1,32 @@
+class Solution {
+    public int countMaxOrSubsets(int[] nums) {
+        int n = nums.length;
+        int maxOR = 0;
+
+        for(int num : nums) {
+            maxOR |= num;
+        }
+
+        int[][] dp = new int[n][maxOR+1];
+        for(int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        return solve(nums, 0, 0, maxOR, dp);
+    }
+
+    private int solve(int[] nums, int idx, int currOR, int maxOR, int[][] dp) {
+        if(idx >= nums.length) {
+            return currOR == maxOR ? 1 : 0;
+        }
+
+        if(dp[idx][currOR] != -1) {
+            return dp[idx][currOR];
+        }
+
+        int exclude = solve(nums, idx+1, currOR, maxOR, dp);
+        int include = solve(nums, idx+1, currOR | nums[idx], maxOR, dp);
+
+        return dp[idx][currOR] = exclude + include;
+    }
+}
