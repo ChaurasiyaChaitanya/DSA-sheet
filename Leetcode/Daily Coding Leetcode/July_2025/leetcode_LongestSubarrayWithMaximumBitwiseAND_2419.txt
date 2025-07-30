@@ -1,0 +1,17 @@
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int maxVal = Arrays.stream(nums).max().getAsInt();
+
+        int len = 0, result = 0;
+        for(int num : nums) {
+            if(num == maxVal) {
+                len++;
+                result = Math.max(result, len);
+            } else {
+                len = 0;
+            }
+        }
+
+        return result;
+    }
+}
