@@ -1,0 +1,36 @@
+class Solution {
+    private double[][] dp;
+
+    public double soupServings(int n) {
+        if(n > 4800)
+            return 1.0;
+
+        int scaledN = (int) Math.ceil(n / 25.0);
+        dp = new double[scaledN + 1][scaledN + 1];
+
+        for (double[] row : dp) {
+            Arrays.fill(row, -1.0);
+        }
+
+        return calculate(scaledN, scaledN);
+    }
+
+    private double calculate(int a, int b) {
+        if(a <= 0 && b <= 0)
+            return 0.5;
+
+        if(a <= 0)
+            return 1.0;
+
+        if(b <= 0)
+            return 0.0;
+
+        if(dp[a][b] >= 0.0) {
+            return dp[a][b];
+        }
+
+        dp[a][b] = 0.25 * (calculate(a-4, b) + calculate(a-3, b-1) + calculate(a-2, b-2) + calculate(a-1, b-3));
+
+        return dp[a][b];
+    }
+}
