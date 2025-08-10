@@ -1,0 +1,24 @@
+class Solution {
+    public boolean reorderedPowerOf2(int n) {
+        int freqNum = getFrequencyNumber(n);
+
+        for(int i=0; i<31; i++) {
+            if(freqNum == getFrequencyNumber(1 << i)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int getFrequencyNumber(int n) {
+        int num = 0;
+
+        while (n > 0) {
+            num += Math.pow(10, n % 10);
+            n /= 10;
+        }
+        
+        return num;
+    }
+}
