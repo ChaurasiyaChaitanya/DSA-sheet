@@ -1,0 +1,37 @@
+class Solution {
+    private static final int MOD = 1_000_000_007;
+    
+    public int numberOfWays(int n, int x) {
+        List<Integer> powers = new ArrayList<>();
+
+        for (int i=1; i<=n; i++) {
+            long p = powWithLimit(i, x, n);
+            if (p > n) 
+                break;
+            powers.add((int) p);
+        }
+
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+
+        for (int power : powers) {
+            for (int t=n; t>=power; t--) {
+                dp[t] = (int) ((dp[t] + dp[t - power]) % MOD);
+            }
+        }
+
+        return dp[n];
+    }
+
+    private long powWithLimit(int a, int b, int limit) {
+        long res = 1;
+
+        for (int i=0; i<b; i++) {
+            res *= a;
+            if (res > limit) 
+                return (long) limit + 1;
+        }
+
+        return res;
+    }
+}
