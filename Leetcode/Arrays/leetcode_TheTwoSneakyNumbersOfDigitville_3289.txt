@@ -1,0 +1,37 @@
+class Solution {
+    public int[] getSneakyNumbers(int[] nums) {
+        int[] freq = new int[101];
+        int[] result = new int[2];
+
+        int j = 0;
+        for(int i=0; i<nums.length && j < 2; i++) {
+            if(freq[nums[i]] > 0) {
+                result[j++] = nums[i];
+            } else {
+                freq[nums[i]]++;
+            }
+        }
+
+        return result;
+    }
+}
+
+
+class Solution {
+//     public int[] getSneakyNumbers(int[] nums) {
+//         int[] freq = new int[101];
+//         List<Integer> result = new ArrayList<>();
+
+//         for(int num : nums) {
+//             if(freq[num] > 0) {
+//                 result.add(num);
+//                 if(result.size() == 2) {
+//                     return result.stream().mapToInt(e -> e).toArray();
+//                 }
+//             }
+//             freq[num]++;
+//         }
+
+//         return new int[]{};
+//     }
+// }
