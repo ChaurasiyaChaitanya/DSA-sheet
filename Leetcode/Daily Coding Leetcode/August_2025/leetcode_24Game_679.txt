@@ -3,7 +3,7 @@ class Solution {
 
     public boolean judgePoint24(int[] cards) {
         List<Double> nums = new ArrayList<>();
-
+    
         for(int card : cards) {
             nums.add((double) card);
         }
