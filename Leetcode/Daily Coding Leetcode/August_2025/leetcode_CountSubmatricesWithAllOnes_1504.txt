@@ -1,0 +1,32 @@
+class Solution {
+    public int numSubmat(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+
+        int[] histogram = new int[n];
+        int result = 0;
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                histogram[j] = (mat[i][j] == 1) ? histogram[j] + 1 : 0;
+            }
+
+            // Stack of int[]{height, index, prevCount}
+            Deque<int[]> stack = new ArrayDeque<>();
+            stack.push(new int[]{-1, -1, 0});
+
+            int count = 0;
+            for (int j=0; j<n; j++) {
+                while (stack.peek()[0] >= histogram[j]) {
+                    stack.pop();
+                }
+                int[] top = stack.peek();
+                count = histogram[j] * (j - top[1]) + top[2];
+                stack.push(new int[]{histogram[j], j, count});
+                result += count;
+            }
+        }
+
+        return result;
+    }
+}
