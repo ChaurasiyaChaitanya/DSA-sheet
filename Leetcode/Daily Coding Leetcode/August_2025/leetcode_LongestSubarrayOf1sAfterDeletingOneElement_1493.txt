@@ -1,0 +1,27 @@
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int n = nums.length;
+        int count = 0, result = 0;
+
+        int i = 0;
+        // Sliding Window - window should have atmost 1 zero
+        for(int j=0; j<n; j++) {
+            if(nums[j] == 0) {
+                count++;
+            }
+
+            // If zeros are more than one, shrink window
+            while(count > 1) {
+                if(nums[i] == 0) {
+                    count--;
+                }
+                i++;
+            }
+
+            // Check the window size after removing one element (j - i) from that window
+            result = Math.max(result, j-i);
+        }
+
+        return result;
+    }
+}
