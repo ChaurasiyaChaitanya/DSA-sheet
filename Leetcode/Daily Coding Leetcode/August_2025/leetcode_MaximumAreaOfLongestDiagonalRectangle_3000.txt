@@ -1,0 +1,22 @@
+class Solution {
+    public int areaOfMaxDiagonal(int[][] dimensions) {
+        int longestDiagonal = 0;
+        int result = 0;
+        
+        for(int[] dimension : dimensions) {
+            int length = dimension[0];
+            int width = dimension[1];
+
+            int diagonal = (length * length) + (width * width);
+
+            if(diagonal > longestDiagonal) {
+                longestDiagonal = diagonal;
+                result = length * width; // Area
+            } else if(diagonal == longestDiagonal) {
+                result = Math.max(result, length * width);
+            }
+        }
+
+        return result;
+    }
+}
