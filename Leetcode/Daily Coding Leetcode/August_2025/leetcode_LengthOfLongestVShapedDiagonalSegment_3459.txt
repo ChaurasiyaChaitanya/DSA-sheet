@@ -1,0 +1,57 @@
+class Solution {
+    int[][] dir = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
+    int m, n;
+    int[][][][] dp; // [i][j][direction][canTurn]
+
+    public int lenOfVDiagonal(int[][] grid) {
+        m = grid.length;
+        n = grid[0].length;
+        dp = new int[m][n][4][2];
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                for(int k=0; k<4; k++) {
+                    Arrays.fill(dp[i][j][k], -1);
+                }
+            }
+        }
+
+        int result = 0;
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == 1) {
+                    for(int d=0; d<4; d++) {
+                        result = Math.max(result, 1 + solve(i, j, d, 1, 2, grid));
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private int solve(int i, int j, int d, int canTurn, int val, int[][] grid) {
+        int nx = i + dir[d][0], ny = j + dir[d][1];
+
+        if(nx < 0 || nx >= m || ny < 0 || ny >= n || grid[nx][ny] != val) 
+            return 0;
+
+        if(dp[nx][ny][d][canTurn] != -1) {
+            return dp[nx][ny][d][canTurn];
+        }
+
+        int result = 0;
+
+        // keep moving straight
+        int keepMoving = 1 + solve(nx, ny, d, canTurn, val == 2 ? 0 : 2, grid);
+        result = Math.max(result, keepMoving);
+
+        // try turning once
+        if (canTurn == 1) {
+            int turnAndMove = 1 + solve(nx, ny, (d + 1) % 4, 0, val == 2 ? 0 : 2, grid);
+            result = Math.max(result, turnAndMove);
+        }
+
+        return dp[nx][ny][d][canTurn] = result;
+    }
+}
