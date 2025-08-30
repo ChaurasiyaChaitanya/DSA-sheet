@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] box = new boolean[9][9];
+
+        for(int i=0; i<9; i++) {
+            for(int j=0; j<9; j++) {
+                if(board[i][j] == '.') 
+                    continue;
+
+                // Convert a digit into index so '-1'
+                int digit = board[i][j] - '1';
+
+                // To find in which 3*3 box digit lies
+                int boxIdx = (i / 3) * 3 + (j / 3);
+
+                if(row[i][digit] || col[j][digit] || box[boxIdx][digit]) 
+                    return false;
+
+                row[i][digit] = col[j][digit] = box[boxIdx][digit] = true;
+            }
+        }
+
+        return true;
+    }
+}
