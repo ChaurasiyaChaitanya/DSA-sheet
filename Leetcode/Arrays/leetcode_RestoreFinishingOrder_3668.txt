@@ -1,0 +1,30 @@
+class Solution {
+    public int[] recoverOrder(int[] order, int[] friends) {
+        int m = order.length, n = friends.length;
+        int k = 0;
+
+        int[] result = new int[n];
+
+        // for(int i=0; i<m; i++) {
+        //     for(int j=0; j<n; j++) {
+        //         if(order[i] == friends[j]) {
+        //             result[k++] = order[i];
+        //         }
+        //     }
+        // }
+
+        Set<Integer> set = new HashSet<>();
+
+        for(int friend : friends) {
+            set.add(friend);
+        }
+
+        for(int ord : order) {
+            if(set.contains(ord)) {
+                result[k++] = ord;
+            }
+        }
+
+        return result;
+    }
+}
