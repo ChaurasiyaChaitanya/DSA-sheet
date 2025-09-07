@@ -1,0 +1,17 @@
+class Solution {
+    public int[] sumZero(int n) {
+        int[] result = new int[n];
+        int j = 0, k = n-1;
+
+        if(n % 2 != 0) {
+            result[n/2] = 0;
+        }
+
+        for(int i=n/2; i>=1; i--) {
+            result[j++] = -i;
+            result[k--] = i;
+        }
+
+        return result;
+    }
+}
