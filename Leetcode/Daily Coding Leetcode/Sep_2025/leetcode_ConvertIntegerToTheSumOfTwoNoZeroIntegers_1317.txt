@@ -1,0 +1,21 @@
+class Solution {
+    public int[] getNoZeroIntegers(int n) {
+        int a = n, b = 0;
+        int placeValue = 1;
+
+        while(n > 1) {
+            int adjust = 1;
+            // If substract 1, then 'a' would have 0 
+            if(n % 10 == 1) {
+                adjust = 2;
+            }
+            a -= adjust * placeValue;
+            b += adjust * placeValue;
+
+            n = (n - adjust) / 10;
+            placeValue *= 10;
+        }
+
+        return new int[]{a, b};
+    }
+}
