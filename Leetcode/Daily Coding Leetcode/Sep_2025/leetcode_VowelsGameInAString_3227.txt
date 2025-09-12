@@ -1,0 +1,16 @@
+class Solution {
+    public boolean doesAliceWin(String s) {
+        // For atleast 1 vowel - Alice win
+        // If odd - Alice takes all
+        // If even - Alice takes even - 1 and Bob to choose without vowel substring
+        // Alice takes rem. odd vowel and win
+        // If no vowel, Bob win
+
+        for(char c : s.toCharArray()) {
+            if(c =='a' || c =='e' || c =='i' || c =='o' || c =='u') 
+                return true;
+        }
+
+        return false;
+    }
+}
