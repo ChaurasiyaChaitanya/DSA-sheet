@@ -1,0 +1,30 @@
+class Solution {
+    public int canBeTypedWords(String text, String brokenLetters) {
+        boolean[] letters = new boolean[26];
+
+        for(char c : brokenLetters.toCharArray()) {
+            letters[c-'a'] = true;
+        }
+
+        boolean canType = true;
+        int result = 0;
+
+        for(char c : text.toCharArray()) {
+            if(c == ' ') {
+                if(canType) {
+                    result++;
+                }
+                canType = true;
+            } else if(letters[c - 'a']) {
+                canType = false;
+            }
+        }
+
+        // check last word as there is no space after last word
+        if(canType) {
+            result++;
+        } 
+
+        return result;
+    }
+}
