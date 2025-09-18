@@ -1,0 +1,22 @@
+class Solution {
+    public int[] maxKDistinct(int[] nums, int k) {
+        TreeSet<Integer> set = new TreeSet<>(Comparator.reverseOrder());
+        
+        for(int num : nums) {
+            set.add(num);
+        }
+
+        int j = 0;
+        k = Math.min(k, set.size());
+
+        int[] result = new int[k];
+        for(int num : set) {
+            if(k > 0) {
+                result[j++] = num;
+                k--;
+            }
+        }
+
+        return result;
+    }
+}

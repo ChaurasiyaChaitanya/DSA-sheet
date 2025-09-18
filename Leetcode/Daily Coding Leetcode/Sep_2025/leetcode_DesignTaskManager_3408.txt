@@ -1,0 +1,60 @@
+class TaskManager {
+    private PriorityQueue<int[]> maxHeap;
+    private Map<Integer, Integer> taskPriority;
+    private Map<Integer, Integer> taskUser;
+
+    public TaskManager(List<List<Integer>> tasks) {
+        maxHeap = new PriorityQueue<>((a, b) -> {
+            if(b[0] != a[0]) 
+                return b[0] - a[0];
+            
+            return b[1] - a[1];
+        });
+
+        taskPriority = new HashMap<>();
+        taskUser = new HashMap<>();
+
+        for(List<Integer> t : tasks) {
+            add(t.get(0), t.get(1), t.get(2));
+        }
+    }
+    
+    public void add(int userId, int taskId, int priority) {
+        maxHeap.offer(new int[]{priority, taskId});
+        taskPriority.put(taskId, priority);
+        taskUser.put(taskId, userId);
+    }
+    
+    public void edit(int taskId, int newPriority) {
+        maxHeap.offer(new int[]{newPriority, taskId});
+        taskPriority.put(taskId, newPriority);
+    }
+    
+    public void rmv(int taskId) {
+        taskPriority.put(taskId, -1);
+    }
+    
+    public int execTop() {
+         while (!maxHeap.isEmpty()) {
+            int[] top = maxHeap.poll();
+            int p = top[0], idx = top[1];
+            int currPriority = taskPriority.getOrDefault(idx, -1);
+
+            if (p == currPriority) {
+                taskPriority.put(idx, -1); // mark executed
+                return taskUser.get(idx);
+            }
+        }
+
+        return -1; // no valid tasks
+    }
+}
+
+/**
+ * Your TaskManager object will be instantiated and called as such:
+ * TaskManager obj = new TaskManager(tasks);
+ * obj.add(userId,taskId,priority);
+ * obj.edit(taskId,newPriority);
+ * obj.rmv(taskId);
+ * int param_4 = obj.execTop();
+ */
