@@ -1,0 +1,111 @@
+class Router {
+    private int MAX_SIZE;
+    private Map<String, int[]> packetMap;
+    private Map<Integer, ArrayList<Integer>> destTime;
+    private Queue<String> queue;
+
+    // Removing an element in Arraylist takes O(n)
+    // While forwarding the packet timestamp need to be removed
+    // Instead can take index of first valid timestamp
+    private Map<Integer, Integer> startIdx; 
+
+    public Router(int memoryLimit) {
+        MAX_SIZE = memoryLimit;
+        packetMap = new HashMap<>();
+        destTime = new HashMap<>();
+        queue = new LinkedList<>();
+        startIdx = new HashMap<>();
+    }
+
+    private String createKey(int source, int destination, int timestamp) {
+        return source + "#" + destination + "#" + timestamp;
+    }
+    
+    public boolean addPacket(int source, int destination, int timestamp) {
+        String key = createKey(source, destination, timestamp);
+
+        if(packetMap.containsKey(key)) {
+            return false;
+        }
+
+        if(packetMap.size() >= MAX_SIZE) {
+            forwardPacket(); // remove oldest
+        }
+
+        packetMap.put(key, new int[]{source, destination, timestamp});
+        queue.offer(key);
+
+        destTime.computeIfAbsent(destination, k -> new ArrayList<>()).add(timestamp);
+        startIdx.putIfAbsent(destination, 0);
+
+        return true;
+    }
+    
+    public int[] forwardPacket() {
+        if(packetMap.isEmpty()) {
+            return new int[]{};
+        }
+
+        String key = queue.poll();
+
+        int[] packet = packetMap.get(key);
+        packetMap.remove(key);
+
+        int dest = packet[1];
+        int idx = startIdx.get(dest);
+        startIdx.put(dest, idx + 1); // move start index forward instead of removing from list
+
+        return packet;
+    }
+    
+    public int getCount(int destination, int startTime, int endTime) {
+        if(!destTime.containsKey(destination)) {
+            return 0;
+        }
+
+        ArrayList<Integer> list = destTime.get(destination);
+        int idx = startIdx.get(destination);
+        int left = lowerBound(list, startTime, idx);
+        int right = upperBound(list, endTime, idx);
+
+        return right - left;
+    }
+
+    // binary search for first index >= target, starting from idx
+    private int lowerBound(ArrayList<Integer> list, int target, int idx) {
+        int low = idx, high = list.size();
+
+        while (low < high) {
+            int mid = (low + high) / 2;
+            if (list.get(mid) >= target) 
+                high = mid;
+            else 
+                low = mid + 1;
+        }
+
+        return low;
+    }
+
+    // binary search for first index > target, starting from idx
+    private int upperBound(ArrayList<Integer> list, int target, int idx) {
+        int low = idx, high = list.size();
+
+        while (low < high) {
+            int mid = (low + high) / 2;
+            if (list.get(mid) > target) 
+                high = mid;
+            else 
+                low = mid + 1;
+        }
+
+        return low;
+    }
+}
+
+/**
+ * Your Router object will be instantiated and called as such:
+ * Router obj = new Router(memoryLimit);
+ * boolean param_1 = obj.addPacket(source,destination,timestamp);
+ * int[] param_2 = obj.forwardPacket();
+ * int param_3 = obj.getCount(destination,startTime,endTime);
+ */
