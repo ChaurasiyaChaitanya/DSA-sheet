@@ -1,0 +1,21 @@
+class Solution {
+    public int maxFrequencyElements(int[] nums) {
+        int[] freq = new int[101];
+
+        for(int num : nums) {
+            freq[num]++;
+        }
+
+        int maxCount = 0, result = 0;
+        for(int count : freq) {
+            if(count > maxCount) {
+                maxCount = count;
+                result = count;
+            } else if(count == maxCount) {
+                result += count;
+            }
+        }
+
+        return result;
+    }
+}
