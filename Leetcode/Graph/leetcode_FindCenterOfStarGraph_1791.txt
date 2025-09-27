@@ -1,0 +1,10 @@
+class Solution {
+    public int findCenter(int[][] edges) {
+        // return the common node in edges[0] and  edges[1]
+
+        int u0 = edges[0][0], v0 = edges[0][1];
+        int u1 = edges[1][0], v1 = edges[1][1];
+
+        return u0 == u1 || v0 == u1 ? u1 : v1;
+    }
+}
