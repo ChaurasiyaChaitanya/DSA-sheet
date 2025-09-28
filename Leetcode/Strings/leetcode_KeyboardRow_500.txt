@@ -1,0 +1,57 @@
+class Solution {
+    public String[] findWords(String[] words) {
+        int[] row = new int[26]; // map each letter to its row
+
+        for (char c : "qwertyuiop".toCharArray()) {
+            row[c-'a'] = 1;
+        }
+        for (char c : "asdfghjkl".toCharArray()) {
+            row[c-'a'] = 2;
+        }
+        for (char c : "zxcvbnm".toCharArray()) {
+            row[c-'a'] = 3;
+        }
+
+        List<String> result = new ArrayList<>();
+        for (String word : words) {
+            String s = word.toLowerCase();
+            int r = row[s.charAt(0) - 'a'];
+            boolean valid = true;
+            for (int i=1; i<s.length(); i++) {
+                if (row[s.charAt(i) - 'a'] != r) {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid) {
+                result.add(word);
+            }
+        }
+
+        return result.toArray(new String[0]);
+
+        // String s1 = "qwertyuiop", s2 = "asdfghjkl", s3 = "zxcvbnm";
+        // boolean flag = false;
+        // String temp = "";
+
+        // List<String> result = new ArrayList<>();
+        // for(String word : words) {
+        //     String s[] = word.toLowerCase().split("");
+        //     flag = true;
+
+        //     temp = !s1.contains(s[0]) ? s2.contains(s[0]) ? s2 : s3 : s1;
+
+        //     for(int i=1; i<s.length; i++) {
+        //         if(!temp.contains(s[i])) {
+        //             flag = false;
+        //             break;
+        //         }
+        //     }
+
+        //     if(flag)
+        //         result.add(word);
+        // }
+
+        // return result.toArray(new String[0]);
+    }
+}
