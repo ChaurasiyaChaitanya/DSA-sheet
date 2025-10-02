@@ -1,0 +1,38 @@
+class Solution {
+    public int[][] flipAndInvertImage(int[][] image) {
+        for(int[] row : image) {
+
+            int i = 0, j = row.length - 1;
+            while (i <= j) {
+                // Swap and invert simultaneously
+                if (row[i] == row[j]) {
+                    row[i] = row[j] = 1 - row[i]; // both same, just flip one
+                }
+                // if different, after swap & invert they remain same
+                i++;
+                j--;
+            }
+            
+            // reverse(row);
+            // invert(row);
+        }
+
+        return image;
+    }
+
+    // private void reverse(int[] row) {
+    //     int i = 0, j = row.length - 1;
+
+    //     while(i < j) {
+    //         int temp = row[i];
+    //         row[i++] = row[j];
+    //         row[j--] = temp;
+    //     }
+    // }
+
+    // private void invert(int[] row) {
+    //     for(int i=0; i<row.length; i++) {
+    //         row[i] = row[i] == 0 ? 1 : 0;
+    //     }
+    // }
+}
