@@ -1,0 +1,20 @@
+class Solution {
+    public int maxIncreasingSubarrays(List<Integer> nums) {
+        int currCount = 1, prevCount = 0;
+        int result = 0;
+
+        for(int i=1; i<nums.size(); i++) {
+            if(nums.get(i) > nums.get(i-1)) {
+                currCount++;
+            } else {
+                prevCount = currCount;
+                currCount = 1;
+            }
+
+            result = Math.max(result, currCount / 2);
+            result = Math.max(result, Math.min(currCount, prevCount));
+        }
+
+        return result;
+    }
+}
