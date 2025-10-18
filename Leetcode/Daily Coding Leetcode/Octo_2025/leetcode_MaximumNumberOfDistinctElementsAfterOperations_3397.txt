@@ -1,0 +1,22 @@
+class Solution {
+    public int maxDistinctElements(int[] nums, int k) {
+        Arrays.sort(nums);
+
+        long prev = Long.MIN_VALUE;
+        int result = 0;
+
+        for(int i=0; i<nums.length; i++) {
+            long minVal = nums[i] - k;
+
+            if(prev < minVal) {
+                prev = minVal;
+                result++;
+            } else if(prev < nums[i] + k) {
+                prev = prev + 1;
+                result++;
+            }
+        }
+
+        return result;
+    }
+}
