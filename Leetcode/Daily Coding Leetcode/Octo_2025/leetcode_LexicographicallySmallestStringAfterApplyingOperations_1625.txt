@@ -1,0 +1,52 @@
+class Solution {
+    public String findLexSmallestString(String s, int a, int b) {
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        String result = s;
+
+        queue.add(s);
+        visited.add(s);
+
+        while(!queue.isEmpty()) {
+            String curr = queue.poll();
+            if(curr.compareTo(result) < 0) {
+                result = curr;
+            }
+
+            StringBuilder sb = new StringBuilder(curr);
+            for (int i=1; i<sb.length(); i+=2) {
+                sb.setCharAt(i, (char) ((sb.charAt(i) - '0' + a) % 10 + '0'));
+            }
+            String str = new String(sb.toString());
+            if (visited.add(str)) {
+                queue.add(str);
+            }
+
+            String rotatedStr = rotate(curr, b);
+            // String rotatedStr = curr.substring(curr.length() - b) + curr.substring(0, curr.length() - b);;
+            if (visited.add(rotatedStr)) {
+                queue.add(rotatedStr);
+            }
+        }
+
+        return result;
+    }
+
+    private String rotate(String s, int b) {
+        StringBuilder sb = new StringBuilder(s);
+
+        sb.reverse();
+        reverseRange(sb, 0, b-1);
+        reverseRange(sb, b, sb.length()-1);
+
+        return sb.toString();
+    }
+
+    private void reverseRange(StringBuilder sb, int left, int right) {
+        while (left < right) {
+            char temp = sb.charAt(left);
+            sb.setCharAt(left++, sb.charAt(right));
+            sb.setCharAt(right--, temp);
+        }
+    }
+}

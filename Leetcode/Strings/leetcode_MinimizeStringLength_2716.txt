@@ -1,0 +1,32 @@
+class Solution {
+    public int minimizedStringLength(String s) {
+        // means return the string length having unique characters only
+
+        boolean[] seen = new boolean[26];
+        int result = 0;
+
+        for (char c : s.toCharArray()) {
+            if (!seen[c - 'a']) {
+                seen[c - 'a'] = true;
+                result++;
+            }
+        }
+
+        return result;
+
+        // int[] unique = new int[26];
+
+        // for(char c : s.toCharArray()) {
+        //     unique[c - 'a'] = 1;
+        // }
+
+        // int result = 0;
+        // for(int u : unique) {
+        //     if(u == 1) {
+        //         result++;
+        //     }
+        // }
+
+        // return result;
+    }
+}
