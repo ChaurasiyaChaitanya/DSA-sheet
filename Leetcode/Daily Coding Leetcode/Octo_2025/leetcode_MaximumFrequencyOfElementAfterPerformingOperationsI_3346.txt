@@ -1,0 +1,35 @@
+
+
+
+class Solution {
+    public int maxFrequency(int[] nums, int k, int numOperations) {
+        int maxEle = Arrays.stream(nums).max().getAsInt() + k;
+
+        int[] freq = new int[maxEle+1];
+        for(int num : nums) {
+            freq[num]++;
+        }
+
+        for(int i=1; i<=maxEle; i++) {
+            freq[i] += freq[i-1];
+        }
+
+        int result = 0;
+        for(int target=0; target<=maxEle; target++) {
+            if(freq[target] != 0) {
+                int leftNum = Math.max(0, target - k);
+                int rightNum = Math.min(maxEle, target + k);
+
+                int totalCount = freq[rightNum] - (leftNum > 0 ? freq[leftNum - 1] : 0);
+                int targetCount = freq[target] - (target > 0 ? freq[target - 1] : 0);
+
+                int conversions = totalCount - targetCount;
+                int maxFreq = targetCount + Math.min(conversions, numOperations);
+
+                result = Math.max(result, maxFreq);
+            }
+        }
+
+        return result;
+    }
+}
