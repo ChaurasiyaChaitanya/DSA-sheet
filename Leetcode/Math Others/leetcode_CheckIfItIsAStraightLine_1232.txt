@@ -1,0 +1,20 @@
+class Solution {
+    public boolean checkStraightLine(int[][] coordinates) {
+        // The slope = (x2 - x1) / (y2 - y1) is constant for any 2 coordinates
+        // compare every coordinates with 1st coordinate
+
+        int x = coordinates[1][0] - coordinates[0][0];
+        int y = coordinates[1][1] - coordinates[0][1];
+
+        for(int i=2; i<coordinates.length; i++) {
+            int xi = coordinates[i][0] - coordinates[0][0];
+            int yi = coordinates[i][1] - coordinates[0][1];
+
+            if(x * yi != y * xi) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}

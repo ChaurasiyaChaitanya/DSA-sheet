@@ -1,0 +1,9 @@
+class Solution {
+    public int minimumSum(int num) {
+        int[] nums = {num % 10, (num / 10) % 10, (num / 100) % 10, (num / 1000) % 10};
+        
+        Arrays.sort(nums);
+
+        return (nums[0] * 10 + nums[2]) + (nums[1] * 10 + nums[3]);
+    }
+}
