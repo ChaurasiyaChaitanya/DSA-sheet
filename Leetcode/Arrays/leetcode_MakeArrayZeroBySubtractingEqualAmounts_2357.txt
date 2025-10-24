@@ -1,0 +1,24 @@
+class Solution {
+    public int minimumOperations(int[] nums) {
+        int[] freq = new int[101];
+        int result = 0;
+
+        for(int num : nums) {
+            if(num != 0 && freq[num] == 0) {
+                freq[num] = 1;
+                result++;
+            }
+        }
+
+        return result;
+
+        // Set<Integer> set = new HashSet<>();
+
+        // for(int num : nums) {
+        //     if(num > 0) 
+        //         set.add(num);
+        // }
+
+        // return set.size();
+    }
+}
