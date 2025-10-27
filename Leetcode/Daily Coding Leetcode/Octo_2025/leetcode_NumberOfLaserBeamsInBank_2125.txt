@@ -1,0 +1,26 @@
+class Solution {
+    public int numberOfBeams(String[] bank) {
+        int prev = 0, result = 0;
+
+        for(String row : bank) {
+            // int curr = row.length() - bank[i].replaceAll("1", "").length();
+            int curr = countOnes(row);
+            if(curr > 0) {
+                result += prev * curr;
+                prev = curr;
+            }
+        }
+
+        return result;
+    }
+
+    private int countOnes(String row) {
+        int count = 0;
+        for(char c : row.toCharArray()) {
+            if(c == '1') 
+                count++;
+        }
+
+        return count;
+    }
+}
