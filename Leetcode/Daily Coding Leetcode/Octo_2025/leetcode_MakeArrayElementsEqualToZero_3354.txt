@@ -1,0 +1,28 @@
+class Solution {
+    public int countValidSelections(int[] nums) {
+        // Diff between left and right side of '0' should be either 0 or 1
+        // if 0 both way possible, if 1 one way possible
+
+        int sum = 0;
+        for(int num : nums) {
+            sum += num;
+        }
+
+        int leftSum = 0, result = 0;
+
+        for(int num : nums) {
+            leftSum += num;
+            int rightSum = sum - leftSum;
+
+            if(num == 0) {
+                if(leftSum == rightSum) {
+                    result += 2;
+                } else if(Math.abs(leftSum - rightSum) == 1) {
+                    result++;
+                }
+            }
+        }
+
+        return result;
+    }
+}
