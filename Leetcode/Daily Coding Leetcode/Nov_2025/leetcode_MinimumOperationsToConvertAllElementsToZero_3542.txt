@@ -1,0 +1,22 @@
+class Solution {
+    public int minOperations(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+
+        int result = 0;
+        for(int num : nums) {
+            while(!stack.isEmpty() && stack.peek() > num) {
+                stack.pop();
+            }
+
+            if(num == 0)
+                continue;
+
+            while(stack.isEmpty() || stack.peek() < num) {
+                stack.push(num);
+                result++;
+            }
+        }
+
+        return result;
+    }
+}
