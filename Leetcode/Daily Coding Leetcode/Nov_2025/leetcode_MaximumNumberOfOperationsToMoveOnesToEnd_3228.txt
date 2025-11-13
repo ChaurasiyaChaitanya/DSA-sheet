@@ -1,0 +1,21 @@
+class Solution {
+    public int maxOperations(String s) {
+        int n = s.length();
+        int i = 0, oneCount = 0;
+
+        int result = 0;
+        while(i < n) {
+            if(s.charAt(i) == '0') {
+                result += oneCount;
+                while(i < n && s.charAt(i) == '0') { // move until we reach next '1'
+                    i++;
+                }
+            } else {
+                oneCount++;
+                i++;
+            }
+        }
+
+        return result;
+    }
+}
