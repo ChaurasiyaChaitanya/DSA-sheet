@@ -1,0 +1,20 @@
+class Solution {
+    public int maximizeExpressionOfThree(int[] nums) {
+        int a = -101, b = -101, c = 101;
+
+        for(int num : nums) {
+            if(num > a) {
+                b = a;
+                a = num;
+            } else if(num > b) {
+                b = num;
+            }
+
+            if(num < c) {
+                c = num;
+            }
+        }
+
+        return a + b - c;
+    }
+}
