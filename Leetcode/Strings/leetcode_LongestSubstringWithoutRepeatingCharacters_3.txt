@@ -1,0 +1,24 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int[] pos = new int[128];
+        Arrays.fill(pos, -1);
+
+        int i = 0;
+        int result = 0;
+
+        for(int j=0; j<s.length(); j++) {
+            char c = s.charAt(j);
+
+            // If char is in the curr window, update i to last occ + 1 
+            if(pos[c] >= i) {
+                i = pos[c] + 1;
+            }
+
+            // update curr char position
+            pos[c] = j;
+            result = Math.max(result, j - i + 1);
+        }
+
+        return result;
+    }
+}
