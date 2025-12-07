@@ -1,0 +1,12 @@
+class Solution {
+    public int minOperations(String s) {
+        int result = 0;
+
+        for(char c : s.toCharArray()) {
+            int ops = (26 - (c - 'a')) % 26;
+            result = Math.max(result, ops);
+        }
+
+        return result;
+    }
+}
