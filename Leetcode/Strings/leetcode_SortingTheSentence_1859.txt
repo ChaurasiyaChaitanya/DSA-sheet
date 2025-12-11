@@ -1,0 +1,23 @@
+class Solution {
+    public String sortSentence(String s) {
+        String[] words = s.split(" ");
+        String[] sorted = new String[words.length];
+
+        for(String str : words) {
+            int i = str.charAt(str.length()-1) - '0';
+            sorted[i-1] = str.substring(0, str.length() - 1);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        
+        for(int j=0; j<sorted.length; j++) {
+            if(j < sorted.length - 1) {
+                sb.append(sorted[j]).append(" ");
+            } else {
+                sb.append(sorted[j]);
+            }
+        }
+
+        return sb.toString();
+    }
+}
