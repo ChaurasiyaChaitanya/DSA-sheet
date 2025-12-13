@@ -1,0 +1,6 @@
+class Solution {
+    public boolean isSameAfterReversals(int num) {
+        // last digits should not be 0 as it will be removed as leading zeros after 1st reverse
+        return num == 0 || num % 10 != 0;
+    }
+}

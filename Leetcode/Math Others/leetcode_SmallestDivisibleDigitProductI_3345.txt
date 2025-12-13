@@ -1,0 +1,15 @@
+class Solution {
+    public int smallestNumber(int n, int t) {
+        while(true) {
+            int j = n, prod = 1;
+            while(j > 0) {
+                prod *= j % 10;
+                j /= 10;
+            }
+            if(prod % t == 0) {
+                return n;
+            }
+            n++;
+        }
+    }
+}

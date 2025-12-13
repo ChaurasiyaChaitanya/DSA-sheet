@@ -1,0 +1,22 @@
+class Solution {
+    public int alternateDigitSum(int n) {
+        int count = 0, num = n;
+
+        while(num > 0) {
+            num /= 10;
+            count++;
+        }
+
+        int sign = count % 2 == 0 ? -1 : 1;
+        
+        int result = 0;
+        while(n > 0) {
+            int d = n % 10;
+            result += d * sign;
+            sign *= -1;
+            n /= 10;
+        }
+
+        return result;
+    }
+}

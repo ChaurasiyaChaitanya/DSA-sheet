@@ -1,0 +1,32 @@
+class Solution {
+    public int sumOfEncryptedInt(int[] nums) {
+        int result = 0;
+
+        for(int num : nums) {
+            result += encrypt(num);
+        }
+
+        return result;
+    }
+
+    private int encrypt(int num) {
+        int n = num, large = 0;
+        
+        while(n > 0) {
+            int d = n % 10;
+            if(d > large) {
+                large = d;
+            }
+            n /= 10;
+        }
+
+        int result = 0, prod = 1;
+        while(num > 0) {
+            result += large * prod;
+            prod *= 10;
+            num /= 10;
+        }
+
+        return result;
+    }
+}
