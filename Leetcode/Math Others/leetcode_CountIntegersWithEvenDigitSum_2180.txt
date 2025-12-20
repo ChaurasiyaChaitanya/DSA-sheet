@@ -1,0 +1,15 @@
+class Solution {
+    public int countEven(int num) {
+        int sum = 0;
+        int n = num;
+
+        while(n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+
+        // If digit sum is even → answer = num / 2
+        // If digit sum is odd  → answer = (num - 1) / 2
+        return sum % 2 == 0 ? num / 2 : (num - 1) / 2;
+    }
+}
