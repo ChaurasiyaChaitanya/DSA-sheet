@@ -1,0 +1,43 @@
+class Solution {
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int n = events.length, result = 0;
+
+        int[] maxValues = new int[n];
+        maxValues[0] = events[0][2];
+
+        for(int i=1; i<n; i++) {
+            maxValues[i] = Math.max(maxValues[i-1], events[i][2]);
+        }
+
+        for(int i=0; i<n; i++) {
+            int start = events[i][0], value = events[i][2];
+
+            int index = binarySearch(events, start-1);
+            int currSum = value;
+
+            if(index != -1)
+                currSum += maxValues[index];
+
+            result = Math.max(result, currSum);
+        }
+
+        return result;
+    }
+
+    private int binarySearch(int[][] events, int target) {
+        int start = 0, end = events.length - 1, result = -1;
+
+        while(start <= end) {
+            int mid = start + (end-start) / 2;
+            if(events[mid][1] <= target) {
+                result = mid;
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return result;
+    }
+}
