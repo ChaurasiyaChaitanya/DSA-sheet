@@ -1,0 +1,46 @@
+class Solution {
+    public int mostBooked(int n, int[][] meetings) {
+        Arrays.sort(meetings, (a, b) -> Integer.compare(a[0], b[0]));
+
+        int[] roomsCount = new int[n];
+
+        PriorityQueue<long[]> usedRooms = new PriorityQueue<>((a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(a[1], b[1]));
+        PriorityQueue<Integer> unusedRooms = new PriorityQueue<>();
+
+        for(int i=0; i<n; i++) {
+            unusedRooms.add(i);
+        }
+
+        for(int[] meeting : meetings) {
+            int start = meeting[0], end = meeting[1];
+
+            while(!usedRooms.isEmpty() && usedRooms.peek()[0] <= start) {
+                int room = (int) usedRooms.poll()[1];
+                unusedRooms.add(room);
+            }
+
+            if(!unusedRooms.isEmpty()) {
+                int room = unusedRooms.poll();
+                usedRooms.add(new long[]{end, room});
+                roomsCount[room]++;
+            } else {
+                int room = (int) usedRooms.peek()[1];
+                long endTime = usedRooms.poll()[0];
+                usedRooms.add(new long[]{endTime + (end - start), room});
+                roomsCount[room]++;
+            }
+        }
+
+        int result = 0;
+        int maxUse = 0;
+        
+        for(int i=0; i<n; i++) {
+            if(roomsCount[i] > maxUse) {
+                maxUse = roomsCount[i];
+                result = i;
+            }
+        }
+
+        return result;
+    }
+}
