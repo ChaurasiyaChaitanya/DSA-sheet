@@ -1,0 +1,19 @@
+class Solution {
+    public int minimumChairs(String s) {
+        // minimum number of chairs needed equals to
+        // maximum number of people present in the waiting room at the same time
+
+        int count = 0, result = 0;
+
+        for(char c : s.toCharArray()) {
+            if(c == 'E') {
+                count++;
+                result = Math.max(result, count);
+            } else {
+                count--;
+            }
+        }
+
+        return result;
+    }
+}
