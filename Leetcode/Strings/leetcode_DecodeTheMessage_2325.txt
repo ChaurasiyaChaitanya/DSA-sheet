@@ -1,0 +1,23 @@
+class Solution {
+    public String decodeMessage(String key, String message) {
+        char[] table = new char[26];
+        char start = 'a';
+
+        for(char c : key.toCharArray()) {
+            if (c != ' ' && table[c-'a'] == 0) {
+                table[c-'a'] = start++;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(char c : message.toCharArray()) {
+            if(c != ' ') {
+                sb.append(table[c-'a']);
+            } else {
+                sb.append(" ");
+            } 
+        }
+
+        return sb.toString();
+    }
+}
