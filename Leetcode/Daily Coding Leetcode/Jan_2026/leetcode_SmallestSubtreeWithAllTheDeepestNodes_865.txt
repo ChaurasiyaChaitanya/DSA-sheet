@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    static class Pair {
+        TreeNode node;
+        int depth;
+
+        Pair(TreeNode node, int depth) {
+            this.node = node;
+            this.depth = depth;
+        }
+    }
+
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        Pair result = findLCA(root);
+        return result.node;
+    }
+
+    private Pair findLCA(TreeNode currNode) {
+        if(currNode == null) 
+            return new Pair(null, 0);
+
+        Pair left = findLCA(currNode.left);
+        Pair right = findLCA(currNode.right);
+
+        if(left.depth == right.depth) {
+            return new Pair(currNode, 1 + left.depth);
+        } else if (left.depth > right.depth) {
+            return new Pair(left.node, 1 + left.depth);
+        } else {
+            return new Pair(right.node, 1 + right.depth);
+        }
+    }
+}

@@ -1,0 +1,24 @@
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        // sorted array so squaring element from end will give high value
+        // or squaring negative element from start will givr high value
+
+        int n = nums.length, l = 0, r = n - 1;
+        int[] result = new int[n];
+
+        for(int i=n-1; i>=0; i--) {
+            int leftSqr = nums[l] * nums[l];
+            int rightSqr = nums[r] * nums[r];
+
+            if(leftSqr > rightSqr) {
+                result[i] = leftSqr;
+                l++;
+            } else {
+                result[i] = rightSqr;
+                r--;
+            }
+        }
+
+        return result;
+    }
+}
