@@ -1,0 +1,26 @@
+class Solution {
+    public int[] shortestToChar(String s, char c) {
+        int n = s.length();
+        int[] result = new int[n];
+        int dist = -n;
+
+        // Left to Right
+        for(int i=0; i<n; i++) {
+            if(s.charAt(i) == c) {
+                dist = i;
+            }
+            result[i] = Math.abs(i - dist);
+        }
+
+        // Right to Left
+        // dist goes at where last e
+        for(int i=dist-1; i>=0; i--) {
+            if(s.charAt(i) == c) {
+                dist = i;
+            }
+            result[i] = Math.min(result[i], dist - i);
+        }
+
+        return result;
+    }
+}
