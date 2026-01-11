@@ -1,0 +1,40 @@
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        int[] hist = new int[n];
+
+        int result = 0;
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(matrix[i][j] != '0') {
+                    hist[j] += 1;
+                } else {
+                    hist[j] = 0;
+                }
+            }
+            result = Math.max(result, findArea(hist));
+        }
+
+        return result;
+    }
+
+    private int findArea(int[] hist) {
+        int n = hist.length;
+        int maxArea = 0;
+
+        Stack<Integer> stack = new Stack<>();
+
+        for(int i=0; i<=n; i++) {
+            int h = (i == n) ? 0 : hist[i];
+
+            while(!stack.isEmpty() && h < hist[stack.peek()]) {
+                int height = hist[stack.pop()];
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                maxArea = Math.max(maxArea, height * width);
+            }
+            stack.push(i);
+        }
+
+        return maxArea;
+    }
+}
