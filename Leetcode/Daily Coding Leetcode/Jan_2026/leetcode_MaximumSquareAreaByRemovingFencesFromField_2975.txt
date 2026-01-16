@@ -1,0 +1,98 @@
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int maximizeSquareArea(int m, int n, int[] hFences, int[] vFences) {
+        List<Integer> hList = new ArrayList<>();
+        List<Integer> vList = new ArrayList<>();
+
+        for(int x : hFences) {
+            hList.add(x);
+        }
+        for(int x : vFences) {
+            vList.add(x);
+        }
+
+        // add boundaries
+        hList.add(1);
+        hList.add(m);
+        vList.add(1);
+        vList.add(n);
+
+        Collections.sort(hList);
+        Collections.sort(vList);
+
+        Set<Integer> widths = new HashSet<>();
+
+        // all vertical widths
+        for(int i=0; i<vList.size(); i++) {
+            for (int j=i+1; j<vList.size(); j++) {
+                widths.add(vList.get(j) - vList.get(i));
+            }
+        }
+
+        int maxSide = 0;
+
+        // check horizontal heights
+        for(int i=0; i<hList.size(); i++) {
+            for(int j=i+1; j<hList.size(); j++) {
+                int height = hList.get(j) - hList.get(i);
+                if (widths.contains(height)) {
+                    maxSide = Math.max(maxSide, height);
+                }
+            }
+        }
+
+        if(maxSide == 0) 
+            return -1;
+
+        long area = (long) maxSide * maxSide;
+        
+        return (int) (area % MOD);
+    }
+}
+
+
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int maximizeSquareArea(int m, int n, int[] hFences, int[] vFences) {
+        Set<Integer> set = new HashSet<>();
+
+        set.add(m - 1);
+
+        for(int fence : hFences) {
+            set.add(fence - 1);
+            set.add(m - fence);
+        }
+
+        for(int i=0; i<hFences.length; i++) {
+            for(int j=i+1; j<hFences.length; j++) {
+                set.add(Math.abs(hFences[j] - hFences[i]));
+            }
+        }
+        
+        int maxArea = 0;
+        if(set.contains(n - 1)) {
+            maxArea = Math.max(maxArea, n - 1);
+        }
+
+        for(int fence : vFences) {
+            if(set.contains(fence - 1)) {
+                maxArea = Math.max(maxArea, fence - 1);
+            }
+            if(set.contains(n - fence)) {
+                maxArea = Math.max(maxArea, n - fence);
+            }
+        }
+
+        for(int i=0; i<vFences.length; i++) {
+            for(int j=i+1; j<vFences.length; j++) {
+                if(set.contains(Math.abs(vFences[j] - vFences[i]))) {
+                    maxArea = Math.max(maxArea, Math.abs(vFences[j] - vFences[i]));
+                }
+            }
+        }
+
+        return maxArea == 0 ? -1 : (int) ((1L * maxArea * maxArea) % MOD);
+    }
+}
