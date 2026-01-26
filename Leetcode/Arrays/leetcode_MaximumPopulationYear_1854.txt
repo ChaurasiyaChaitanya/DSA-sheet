@@ -1,0 +1,24 @@
+class Solution {
+    public int maximumPopulation(int[][] logs) {
+        int[] diffArr = new int[101];
+        int offset = 1950;
+
+        for(int[] log : logs) {
+            diffArr[log[0] - offset]++;
+            diffArr[log[1] - offset]--;
+        }
+
+        int result = 0;
+        int curr = 0, max = 0;
+
+        for(int i=0; i<diffArr.length; i++) {
+            curr += diffArr[i];
+            if(curr > max) {
+                max = curr;
+                result = i + offset;
+            }
+        }
+
+        return result;
+    }
+}
