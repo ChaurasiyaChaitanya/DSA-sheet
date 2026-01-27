@@ -1,0 +1,49 @@
+class Solution {
+    public int minCost(int n, int[][] edges) {
+        List<List<int[]>> adj = new ArrayList<>(n);
+
+        for(int i=0; i<n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for(int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            adj.get(u).add(new int[]{v, w});
+            adj.get(v).add(new int[]{u, 2*w});
+        }
+
+        // Dijkstra
+        int[] d = new int[n];
+        Arrays.fill(d, Integer.MAX_VALUE);
+        d[0] = 0;
+
+        boolean[] visited = new boolean[n];
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[]{0, 0}); // [node, dist]
+        
+        while(!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int node = curr[0], dist = curr[1];
+
+            if(node == n-1) {
+                return dist;
+            } 
+
+            if(visited[node]) continue;
+            
+            visited[node] = true;
+
+            for(int[] nbr : adj.get(node)) {
+                int next = nbr[0], wt = nbr[1];
+
+                if(dist + wt < d[next]) {
+                    d[next] = dist + wt;
+                    pq.offer(new int[]{next, d[next]});
+                }
+            }
+
+        }
+
+        return -1;
+    }
+}
