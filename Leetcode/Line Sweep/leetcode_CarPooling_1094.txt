@@ -1,0 +1,29 @@
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+        // Line Sweep
+        // Map<Integer, Integer> map = new TreeMap<>();
+
+        // Diff Array
+        int[] diffArr = new int[1001];
+
+        for(int[] trip : trips) {
+            // Line Sweep
+            // map.put(trip[1], map.getOrDefault(trip[1], 0) + trip[0]);
+            // map.put(trip[2], map.getOrDefault(trip[2], 0) - trip[0]);
+
+            // Diff Array
+            diffArr[trip[1]] += trip[0];
+            diffArr[trip[2]] -= trip[0];
+        } 
+
+        int curr = 0;
+        for(int val : diffArr) {
+            curr += val;
+            if(curr > capacity) {
+                return false;
+            }
+        }
+
+        return true;
+    } 
+}
