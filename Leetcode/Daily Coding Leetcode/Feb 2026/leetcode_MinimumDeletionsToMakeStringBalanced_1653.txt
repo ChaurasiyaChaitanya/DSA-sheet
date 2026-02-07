@@ -1,0 +1,38 @@
+class Solution {
+    public int minimumDeletions(String s) {
+        // Stack<Character> stack = new Stack<>();
+        // int result = 0;
+
+        // for(char c : s.toCharArray()) {
+        //     if(!stack.isEmpty() && c == 'a' && stack.peek() == 'b') {
+        //         stack.pop();
+        //         result++;
+        //     } else {
+        //         stack.push(c);
+        //     }
+        // }
+
+        int count1 = 0;
+        for(char c : s.toCharArray()) {
+            if(c == 'a') {
+                count1++;
+            }
+        }
+
+        int result = Integer.MAX_VALUE;
+        int count2 = 0;
+
+        for(char c : s.toCharArray()) {
+            if(c == 'a') {
+                count1--;
+            }
+
+            result = Math.min(result, count1 + count2);
+            if(c == 'b') {
+                count2++;
+            }
+        }
+
+        return result;
+    }
+}
