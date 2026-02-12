@@ -1,0 +1,19 @@
+class Solution {
+    public int dominantIndices(int[] nums) {
+        int n = nums.length, sum = 0;
+        for(int num : nums) {
+            sum += num;
+        }
+
+        double avg = 0;
+        int result = 0;
+        for(int i=0; i<n-1; i++) {
+            sum -= nums[i];
+            if((long) nums[i] * (n - i - 1) > sum) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+}
