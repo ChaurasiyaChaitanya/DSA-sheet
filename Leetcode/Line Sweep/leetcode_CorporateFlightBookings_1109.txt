@@ -1,0 +1,21 @@
+class Solution {
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        //end is inclusive so n + 2
+        int[] diff = new int[n+2];
+
+        for(int[] booking : bookings) {
+            diff[booking[0]] += booking[2];
+            diff[booking[1] + 1] -= booking[2];
+        }
+
+        int[] result = new int[n];
+        int currSum = 0;
+
+        for(int i=1; i<=n; i++) {
+            currSum += diff[i];
+            result[i-1] = currSum;
+        }
+
+        return result;
+    }
+}
