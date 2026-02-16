@@ -1,0 +1,24 @@
+class Solution {
+    public int firstUniqueFreq(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int num : nums) { 
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for(int value : map.values()) {
+            freq.put(value, freq.getOrDefault(value, 0) + 1);
+        }
+
+        for(int num : nums) {
+            int count = map.get(num);
+            if(freq.get(count) == 1) {
+                return num;
+            }
+        }
+
+        return -1;
+    } 
+}
