@@ -1,0 +1,11 @@
+class Solution {
+    public int minPartitions(String n) {
+        char maxChar = '0';
+
+        for(char c : n.toCharArray()) {
+            maxChar = (char) Math.max(maxChar, c);
+        }
+
+        return maxChar - '0';
+    }
+}
