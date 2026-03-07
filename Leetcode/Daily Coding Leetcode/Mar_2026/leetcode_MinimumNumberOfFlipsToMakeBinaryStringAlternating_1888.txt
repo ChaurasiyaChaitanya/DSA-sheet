@@ -1,0 +1,43 @@
+class Solution {
+    public int minFlips(String s) {
+        int n = s.length();
+        int i = 0, j = 0;
+
+        int flip1 = 0, flip2 = 0;
+        int result = Integer.MAX_VALUE;
+
+        while(j < 2*n) {
+            char ch1 = (j % 2 == 1) ? '1' : '0';
+            char ch2 = (j % 2 == 1) ? '0' : '1';
+
+            if(s.charAt(j % n) != ch1) {
+                flip1++;
+            }
+            if(s.charAt(j % n) != ch2) {
+                flip2++;
+            }
+
+            if(j - i + 1 > n) {
+                ch1 = (i % 2 == 1) ? '1' : '0';
+                ch2 = (i % 2 == 1) ? '0' : '1';
+
+                if(s.charAt(i % n) != ch1) {
+                    flip1--;
+                }
+                if(s.charAt(i % n) != ch2) {
+                    flip2--;
+                }
+
+                i++;
+            } 
+
+            if(j - i + 1 == n) {
+                result = Math.min(result, Math.min(flip1, flip2));
+            } 
+
+            j++;
+        }
+
+        return result;
+    }
+}
