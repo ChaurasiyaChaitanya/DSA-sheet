@@ -1,0 +1,42 @@
+class Solution {
+    int result = Integer.MIN_VALUE;
+
+    public int maximumRequests(int n, int[][] requests) {
+        int[] change = new int[n];
+
+        solve(0, 0, n, change, requests);
+
+        return result;
+    }
+
+    private void solve(int idx, int count, int n, int[] change, int[][] requests) {
+        if(idx == requests.length) {
+            boolean isAllZeros = true;
+
+            for(int x : change) {
+                if(x != 0) {
+                    isAllZeros = false;
+                    break;
+                }
+            }
+
+            if(isAllZeros) {
+                result = Math.max(result, count);
+            }
+
+            return;
+        }
+
+        int from = requests[idx][0], to = requests[idx][1];
+
+        change[from]--;
+        change[to]++;
+
+        solve(idx + 1, count + 1, n, change, requests);
+
+        change[from]++;
+        change[to]--;
+
+        solve(idx + 1, count, n, change, requests);
+    }
+}
