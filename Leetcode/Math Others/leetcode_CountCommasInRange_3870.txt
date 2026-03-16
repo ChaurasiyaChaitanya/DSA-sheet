@@ -1,0 +1,9 @@
+class Solution {
+    public int countCommas(int n) {
+        // above 999, every num counted till n
+        // as they have 4 digits
+        // below 999, 0
+        
+        return Math.max(0, n - 999);
+    }
+}
