@@ -1,0 +1,25 @@
+class Solution {
+    public List<String> validStrings(int n) {
+        List<String> result = new ArrayList<>();
+
+        solve(n, result, new StringBuilder());
+
+        return result;  
+    }
+
+    private void solve(int n, List<String> result, StringBuilder sb) {
+        if(sb.length() == n) {
+            result.add(sb.toString());
+            return;
+        }
+
+        if(sb.length() == 0 || sb.charAt(sb.length() - 1) == '1') {
+            solve(n, result, sb.append("0"));
+            sb.deleteCharAt(sb.length() - 1);
+        }
+       
+
+        solve(n, result, sb.append("1"));
+        sb.deleteCharAt(sb.length() - 1);
+    }
+}
