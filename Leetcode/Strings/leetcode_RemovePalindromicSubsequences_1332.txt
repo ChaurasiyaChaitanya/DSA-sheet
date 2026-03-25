@@ -1,0 +1,9 @@
+class Solution {
+    public int removePalindromeSub(String s) {
+        // The problem states that the string contains only as or only bs, 
+        // if it is not a palindrome, we can remove all as or all bs, leaving only the other character.
+        // So if it is a palindrome, we only need 1 operation to empty the string. Otherwise, we need 2 operations.
+
+        return new StringBuilder(s).reverse().toString().equals(s) ? 1 : 2;
+    }
+}
