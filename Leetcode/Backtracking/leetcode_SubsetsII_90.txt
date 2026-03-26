@@ -1,0 +1,30 @@
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Sort to track of duplicates
+        Arrays.sort(nums);
+
+        solve(0, nums, result, new ArrayList<>());
+
+        return result;
+    }
+
+    private void solve(int i, int[] nums, List<List<Integer>> result, List<Integer> subset) {
+        if(i == nums.length) {
+            result.add(new ArrayList<>(subset));
+            return;
+        }
+
+        subset.add(nums[i]);
+        solve(i+1, nums, result, subset);
+        subset.remove(subset.size() - 1);
+        
+        // Loop until same num appears
+        while(i < nums.length - 1 && nums[i] == nums[i+1]) {
+            i++;
+        }
+
+        solve(i+1, nums, result, subset);
+    }
+}
