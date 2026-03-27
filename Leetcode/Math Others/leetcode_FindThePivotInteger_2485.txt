@@ -1,0 +1,23 @@
+class Solution {
+    public int pivotInteger(int n) {
+        int i = 1, j = n;
+
+        int leftSum = 1, rightSum = n;
+
+        while(i < j) {
+            if(leftSum < rightSum) {
+                i++;
+                leftSum += i;
+            } else {
+                j--;
+                rightSum += j;
+            }
+        }
+
+        if(leftSum == rightSum) {
+            return i;
+        }
+
+        return -1;
+    }
+}
