@@ -1,0 +1,39 @@
+class Solution {
+    int m, n;
+    public int maximumAmount(int[][] coins) {
+        m = coins.length;
+        n = coins[0].length;
+
+        int[][][] memo = new int[m][n][3];
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                Arrays.fill(memo[i][j], Integer.MIN_VALUE);
+            }
+        }
+
+        return solve(coins, memo, 0, 0, 2);
+    }
+
+    private int solve(int[][] coins, int[][][] memo, int i, int j, int neu) {
+        if(i >= m || j >= n) {
+            return Integer.MIN_VALUE;
+        }
+
+        if(i == m - 1 && j == n - 1) {
+            return neu > 0 ? Math.max(0, coins[i][j]) : coins[i][j];
+        }
+
+        if(memo[i][j][neu] != Integer.MIN_VALUE) {
+            return memo[i][j][neu];
+        }
+
+        int result = Math.max(solve(coins, memo, i+1, j, neu), solve(coins, memo, i, j+1, neu)) + coins[i][j];
+
+        if(coins[i][j] < 0 && neu > 0) {
+            result = Math.max(result, Math.max(solve(coins, memo, i+1, j, neu-1), solve(coins, memo, i, j+1, neu-1)));
+        }
+
+        return memo[i][j][neu] = result;
+    }
+}

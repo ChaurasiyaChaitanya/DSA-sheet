@@ -1,0 +1,36 @@
+class Solution {
+    public String majorityFrequencyGroup(String s) {
+        int[] freq = new int[26];
+
+        for(char c : s.toCharArray()) {
+            freq[c-'a']++;
+        }
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int count : freq) {
+            if(count != 0) {
+                map.put(count, map.getOrDefault(count, 0) + 1);
+            }
+        }
+
+        int majority = 0, maxCount = 0;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int key = entry.getKey(), val = entry.getValue();
+
+            if(val > maxCount || (val == maxCount && key > majority)) {
+                majority = key;
+                maxCount = val;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<26; i++) {
+            if(freq[i] == majority) {
+                sb.append((char) (i + 'a'));
+            }
+        }
+
+        return sb.toString();
+    }
+}
