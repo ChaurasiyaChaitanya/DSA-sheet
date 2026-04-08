@@ -1,0 +1,34 @@
+class Solution {
+    public int mirrorFrequency(String s) {
+        int[] charFreq = new int[26];
+        int[] digFreq = new int[10];
+
+        for(char c : s.toCharArray()) {
+            if(c >= 'a' && c <= 'z') {
+                charFreq[c-'a']++;
+            } else {
+                digFreq[c-'0']++;
+            }
+        }
+
+        int result = 0;
+
+        for(int i=0; i<13; i++) {
+            result += Math.abs(charFreq[i] - charFreq[25-i]);
+        }
+
+        for(int i=0; i<5; i++) {
+            result += Math.abs(digFreq[i] - digFreq[9-i]);
+        }
+
+        // for(char c : s.toCharArray()) {
+        //     if(c >= 'a' && c <= 'z') {
+        //         result += Math.abs(charFreq[c-'a'] - charFreq['z'-c]);
+        //     } else {
+        //         result += Math.abs(digFreq[c-'0'] - digFreq['9'-c]);
+        //     }
+        // }
+
+        return result;
+    }
+}
