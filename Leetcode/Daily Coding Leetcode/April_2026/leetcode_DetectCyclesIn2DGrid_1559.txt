@@ -1,0 +1,43 @@
+class Solution {
+    int m, n;
+    int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+    public boolean containsCycle(char[][] grid) {
+        m = grid.length;
+        n = grid[0].length;
+
+        boolean[][] visited = new boolean[m][n];
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(!visited[i][j] && dfs(i, j, i, j, grid, visited)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // prev row and prev col
+    private boolean dfs(int r, int c, int pr, int pc, char[][] grid, boolean[][] visited) {
+        if(visited[r][c]) {
+            return true;
+        }
+
+        visited[r][c] = true;
+
+        for(int[] d : directions) {
+            int nr = r + d[0];
+            int nc = c + d[1];
+
+            if(nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] == grid[r][c] && !(nr == pr && nc == pc)) {
+                if(dfs(nr, nc, r, c, grid, visited)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
