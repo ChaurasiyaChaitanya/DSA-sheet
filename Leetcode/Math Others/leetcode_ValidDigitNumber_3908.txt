@@ -1,0 +1,20 @@
+class Solution {
+    public boolean validDigit(int n, int x) {
+        boolean isOccur = false;
+        int rem = 0;
+
+        while(n > 0) {
+            rem = n % 10;
+            if(rem == x) {
+                isOccur = true;
+            }
+            n /= 10;
+        }
+        
+        if(rem == x) {
+            return false;
+        }
+
+        return isOccur;
+    }
+}
