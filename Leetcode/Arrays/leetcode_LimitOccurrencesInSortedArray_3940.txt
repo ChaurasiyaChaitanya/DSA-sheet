@@ -1,0 +1,29 @@
+class Solution {
+    public int[] limitOccurrences(int[] nums, int k) {
+        int[] freq = new int[101];
+
+        for(int num : nums) {
+            freq[num]++;
+        }
+            
+        List<Integer> list = new ArrayList<>();
+
+        for(int i=0; i<freq.length; i++){
+            int count = 0;
+            while(freq[i] > 0 && count < k){
+                list.add(i);
+                freq[i]--;
+                count++;
+            }
+        }
+
+        int[] result = new int[list.size()];
+        int idx = 0;
+        
+        for(int num : list){
+            result[idx++] = num;
+        }
+
+        return result;
+    }
+}
