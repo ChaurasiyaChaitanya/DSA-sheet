@@ -1,0 +1,29 @@
+class Solution {
+    public int numberOfSpecialChars(String word) {
+        int[] lastLowIdx = new int[26];
+        int[] firstUpIdx = new int[26];
+
+        Arrays.fill(lastLowIdx, -1);
+        Arrays.fill(firstUpIdx, -1);
+
+        for(int i=0; i<word.length(); i++) {
+            char c = word.charAt(i);
+            if(Character.isLowerCase(c)) {
+                lastLowIdx[c-'a'] = i;
+            } else {
+                if(firstUpIdx[c-'A'] == -1) {
+                    firstUpIdx[c-'A'] = i;
+                }
+            }
+        }
+
+        int result = 0;
+        for(int i=0; i<26; i++) {
+            if(lastLowIdx[i] != -1 && firstUpIdx[i] != -1 && lastLowIdx[i] < firstUpIdx[i]) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+}
