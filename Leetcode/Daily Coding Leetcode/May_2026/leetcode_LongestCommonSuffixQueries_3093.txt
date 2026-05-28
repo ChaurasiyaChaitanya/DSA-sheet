@@ -1,0 +1,77 @@
+class Solution {
+    static class TrieNode {
+        int idx;
+        TrieNode[] children;
+
+        TrieNode() {
+            idx = -1; // Initialize with a default value
+            children = new TrieNode[26];
+        }
+    }
+
+    public TrieNode getNode(int idx) {
+        TrieNode node = new TrieNode();
+        node.idx = idx;
+
+        for(int i=0; i<26; i++) {
+            node.children[i] = null;
+        }
+
+        return node;
+    }
+
+    public void insertTrie(TrieNode node, int i, String[] wordsContainer) {
+        String word = wordsContainer[i];
+        int n = word.length();
+
+        for(int j=n-1; j>=0; j--) {
+            int chIdx = word.charAt(j) - 'a';
+
+            if(node.children[chIdx] == null) {
+                node.children[chIdx] = getNode(i);
+            }
+            node = node.children[chIdx];
+
+            if(wordsContainer[node.idx].length() > n) {
+                node.idx = i;
+            }
+        }
+    }
+
+    public int search(TrieNode node, String word, String[] wordsContainer) {
+        int resultIdx = node.idx;
+        int n = word.length();
+
+        for(int i=n-1; i>=0; i--) {
+            int chIdx = word.charAt(i) - 'a';
+            node = node.children[chIdx];
+            if(node == null) {
+                return resultIdx;
+            }
+            resultIdx = node.idx;
+        }
+
+        return resultIdx;
+    }
+
+    public int[] stringIndices(String[] wordsContainer, String[] wordsQuery) {
+        int m = wordsContainer.length;
+        int n = wordsQuery.length;
+        int[] result = new int[n];
+
+        TrieNode root = getNode(0);
+
+        for(int i=0; i<m; i++) {
+            if(wordsContainer[root.idx].length() > wordsContainer[i].length()) {
+                root.idx = i;
+            }
+            insertTrie(root, i, wordsContainer);
+        }
+
+        for(int i=0; i<n; i++) {
+            result[i] = search(root, wordsQuery[i], wordsContainer);
+        }
+
+        return result;
+    }
+}
