@@ -1,0 +1,19 @@
+class Solution {
+    public int wateringPlants(int[] plants, int capacity) {
+        int n = plants.length;
+        int result = 0;
+        int currCap = capacity;
+
+        for(int i=0; i<plants.length; i++) {
+            if(currCap < plants[i]) {
+                result += 2 * i + 1;
+                currCap = capacity - plants[i];
+            } else {
+                result++;
+                currCap -= plants[i];
+            }
+        }
+
+        return result;
+    }
+}
