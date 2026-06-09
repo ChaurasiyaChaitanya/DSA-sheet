@@ -1,0 +1,13 @@
+class Solution {
+    public long maxTotalValue(int[] nums, int k) {
+        int maxEle = Integer.MIN_VALUE;
+        int minEle = Integer.MAX_VALUE;
+
+        for(int num : nums) {
+            maxEle = Math.max(maxEle, num);
+            minEle = Math.min(minEle, num);
+        }
+
+        return (long) k * (maxEle - minEle);
+    }
+}
