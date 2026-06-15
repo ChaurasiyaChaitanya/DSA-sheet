@@ -1,0 +1,23 @@
+class Solution {
+    public int smallestAbsent(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int sum = 0;
+        
+        for(int num : nums) {
+            set.add(num);
+            sum += num;
+        }
+
+        int avg = sum / nums.length + 1;
+
+        if(avg <= 0) {
+            avg = 1;
+        }
+
+        while(set.contains(avg)) {
+            avg++;
+        }
+
+        return avg;
+    } 
+}
