@@ -1,0 +1,23 @@
+class Solution {
+    public long countMajoritySubarrays(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int currSum = 0;
+
+        map.put(0, 1);
+        long validLeftPoints = 0, result = 0;
+
+        for(int num : nums) {
+            if(num == target) {
+                validLeftPoints += map.getOrDefault(currSum, 0);
+                currSum++;
+            } else {
+                currSum--;
+                validLeftPoints -= map.getOrDefault(currSum, 0);
+            }
+            map.merge(currSum, 1, Integer::sum);
+            result += validLeftPoints;
+        }
+
+        return result;
+    }
+}
