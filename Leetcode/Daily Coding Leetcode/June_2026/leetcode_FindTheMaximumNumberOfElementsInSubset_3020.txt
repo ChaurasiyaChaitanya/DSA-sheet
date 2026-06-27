@@ -1,0 +1,30 @@
+class Solution {
+    public int maximumLength(int[] nums) {
+        Map<Long, Integer> map = new HashMap<>();
+
+        for(int num : nums) {
+            long key = num;
+            map.put(key, map.getOrDefault(key, 0) + 1);
+        }
+
+        int result = 0;
+
+        for(long start : map.keySet()) {
+            long key = start;
+            int total = 0;
+            if(key == 1) {
+                int freq = map.get(key);
+                total = freq % 2 == 1 ? freq : freq - 1;
+            } else {
+                while (map.getOrDefault(key, 0) >= 2 && map.containsKey(key * key)) {
+                    total += 2;
+                    key = key * key;
+                }
+                total += 1;
+            }
+            result = Math.max(result, total);
+        }
+
+        return result;
+    }
+}
