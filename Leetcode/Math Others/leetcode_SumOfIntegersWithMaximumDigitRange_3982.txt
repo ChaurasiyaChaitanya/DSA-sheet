@@ -1,0 +1,29 @@
+class Solution {
+    public int maxDigitRange(int[] nums) {
+        int maxDigRange = -1;
+        int result = 0;
+
+        for(int num : nums) {
+            int x = num;
+            int largeDig = 0, smallDig = 9; // [0-9]
+
+            while(x > 0) {
+                int dig = x % 10;
+                largeDig = Math.max(largeDig, dig);
+                smallDig = Math.min(smallDig, dig);
+                x /= 10;
+            }
+
+            int digRange = largeDig - smallDig;
+
+            if(digRange > maxDigRange) {
+                maxDigRange = digRange;
+                result = num;
+            } else if(digRange == maxDigRange) {
+                result += num;
+            }
+        }
+
+        return result;
+    }
+}
