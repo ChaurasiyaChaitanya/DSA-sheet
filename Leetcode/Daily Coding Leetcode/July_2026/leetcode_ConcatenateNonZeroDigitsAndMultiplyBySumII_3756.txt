@@ -1,0 +1,41 @@
+class Solution {
+    private static final long MOD = 1_000_000_007;
+
+    public int[] sumAndMultiply(String s, int[][] queries) {
+        int n = s.length();
+        long[] pow10 = new long[n+1];
+
+        pow10[0] = 1;
+        for(int i=1; i<=n; i++) {
+            pow10[i] = (pow10[i - 1] * 10) % MOD;
+        }
+
+        int[] count = new int[n+1];
+        long[] sum = new long[n+1];
+        long[] num = new long[n+1];
+
+        for(int i=0; i<n; i++) {
+            int d = s.charAt(i) - '0';
+            sum[i+1] = sum[i] + d;
+            num[i+1] = d > 0 ? (num[i] * 10 + d) % MOD : num[i];
+            count[i+1] = count[i] + (d > 0 ? 1 : 0);
+        }
+
+        int m = queries.length;
+        int[] result = new int[m];
+
+        for(int i=0; i<m; i++) {
+            int l = queries[i][0];
+            int r = queries[i][1] + 1;
+
+            int len = count[r] - count[l];
+            
+            long val = (num[r] - ((num[l] * pow10[len]) % MOD) + MOD) % MOD;
+            long valSum = sum[r] - sum[l];
+
+            result[i] = (int) ((val * valSum) % MOD);
+        }
+
+        return result;
+    }
+}
