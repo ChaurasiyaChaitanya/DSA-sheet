@@ -1,0 +1,23 @@
+class Solution {
+    public boolean[] pathExistenceQueries(int n, int[] nums, int maxDiff, int[][] queries) {
+        int[] comp = new int[n];
+        int compId = 0;
+        comp[0] = compId;
+
+        for(int i=1; i<n; i++) {
+            if(nums[i] - nums[i-1] > maxDiff) {
+                compId++;
+            }
+            comp[i] = compId;
+        }
+
+        int m = queries.length;
+        boolean[] result = new boolean[m];
+
+        for(int j=0; j<m; j++) {
+            result[j] = comp[queries[j][0]] == comp[queries[j][1]];
+        }
+
+        return result;
+    }
+}
