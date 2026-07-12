@@ -1,0 +1,11 @@
+class Solution {
+    public int secondsBetweenTimes(String startTime, String endTime) {
+        int result = 0;
+
+        int hourDiff = ((endTime.charAt(0) - '0') * 10 + endTime.charAt(1) - '0') - ((startTime.charAt(0) - '0') * 10 + startTime.charAt(1) - '0');
+        int minDiff = ((endTime.charAt(3) - '0') * 10 + endTime.charAt(4) - '0') - ((startTime.charAt(3) - '0') * 10 + startTime.charAt(4) - '0');
+        int secDiff = ((endTime.charAt(6) - '0') * 10 + endTime.charAt(7) - '0') - ((startTime.charAt(6) - '0') * 10 + startTime.charAt(7) - '0');
+
+        return hourDiff * 3600 + minDiff * 60 + secDiff;
+    }
+}
