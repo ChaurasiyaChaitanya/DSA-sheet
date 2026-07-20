@@ -1,0 +1,41 @@
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+
+    public List<List<Integer>> shiftGrid(int[][] grid, int k) {
+        int row = grid.length;
+        int col = grid[0].length;
+
+        int n = row * col;
+        k = k % n;
+
+        if(k == 0) return convertList(grid);
+
+        reverse(grid, 0, n-1, col);
+        reverse(grid, 0, k-1, col);
+        reverse(grid, k, n-1, col);
+
+        return convertList(grid);
+    }
+
+    private void reverse(int[][] grid, int i, int j, int col) {
+        while(i < j) {
+            int temp = grid[i / col][i % col];
+            grid[i / col][i % col] = grid[j / col][j % col];
+            grid[j / col][j % col] = temp;
+            i++;
+            j--;
+        }
+    }
+
+    private List<List<Integer>> convertList(int[][] grid) {
+        for(int[] row : grid) {
+            List<Integer> list = new ArrayList<>(row.length);
+            for(int num : row) {
+                list.add(num);
+            }
+            result.add(list);
+        }
+
+        return result;
+    }
+}
