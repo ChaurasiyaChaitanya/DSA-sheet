@@ -1,0 +1,35 @@
+class Solution {
+    int[][] memo = new int[501][501];
+
+    public boolean stoneGame(int[] piles) {
+        int n = piles.length;
+
+        for(int[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+
+        int sum = 0;
+        for(int pile : piles) {
+            sum += pile;
+        }
+
+        int alexScore = solve(piles, 0, n-1);
+
+        return alexScore > sum / 2;
+    }
+
+    private int solve(int[] piles, int i, int j) {
+        if(i > j) {
+            return 0;
+        }
+
+        if(memo[i][j] != -1) {
+            return memo[i][j];
+        }
+
+        int takeLeft = piles[i] + Math.min(solve(piles, i+2, j), solve(piles, i+1, j-1));
+        int takeRight = piles[j] + Math.min(solve(piles, i, j-2), solve(piles, i+1, j-1));
+
+        return memo[i][j] = Math.max(takeLeft, takeRight);
+    }
+}
