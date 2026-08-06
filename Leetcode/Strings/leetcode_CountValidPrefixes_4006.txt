@@ -1,0 +1,17 @@
+class Solution {
+    public int countValidPrefixes(String s) {
+        int countZero = 0, countOne = 0;
+        int result = 0;
+
+        for(char c : s.toCharArray()) {
+            if(c == '0') countZero++;
+            else countOne++;
+
+            if(Math.abs(countZero - countOne) <= 1) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+}
