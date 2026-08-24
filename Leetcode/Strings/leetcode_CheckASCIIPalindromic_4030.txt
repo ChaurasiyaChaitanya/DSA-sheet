@@ -1,0 +1,22 @@
+class Solution {
+    public boolean isPalindromic(String s) {
+        StringBuilder binaryStr = new StringBuilder();
+
+        for(char c : s.toCharArray()) {
+            for(int b=7; b>=0; b--) {
+                binaryStr.append((c >> b) & 1);
+            }
+        }
+
+        int i = 0, j = binaryStr.length() - 1;
+        while(i < j) {
+            if(binaryStr.charAt(i) != binaryStr.charAt(j)) {
+                return false;
+            }
+            i++; 
+            j--;
+        }
+
+        return true;
+    }
+}
