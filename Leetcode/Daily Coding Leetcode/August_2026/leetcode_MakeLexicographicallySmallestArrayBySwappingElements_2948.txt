@@ -1,0 +1,32 @@
+class Solution {
+    public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+        int n = nums.length;
+        int[] sorted = nums.clone();
+        Arrays.sort(sorted);
+
+        int groupNum = 0;
+        Map<Integer, Integer> numToGroup = new HashMap<>();
+        numToGroup.put(sorted[0], groupNum);
+
+        Map<Integer, LinkedList<Integer>> groupToList = new HashMap<>();
+        groupToList.putIfAbsent(groupNum, new LinkedList<>());
+        groupToList.get(groupNum).add(sorted[0]);
+
+        for(int i=1; i<n; i++) {
+            if(Math.abs(sorted[i] - sorted[i-1]) > limit) {
+                groupNum++;
+            }
+            numToGroup.put(sorted[i], groupNum);
+            groupToList.putIfAbsent(groupNum, new LinkedList<>());
+            groupToList.get(groupNum).add(sorted[i]);
+        }
+
+        for(int i=0; i<n; i++) {
+            int num = nums[i];
+            int group = numToGroup.get(num);
+            nums[i] = groupToList.get(group).pop();
+        }
+
+        return nums;
+    }
+}
