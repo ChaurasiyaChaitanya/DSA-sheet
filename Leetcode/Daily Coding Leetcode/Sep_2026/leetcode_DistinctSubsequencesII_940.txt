@@ -1,0 +1,17 @@
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int distinctSubseqII(String s) {
+        int[] dp = new int[26];
+        int result = 0;
+
+        for(char ch : s.toCharArray()) {
+            int i = ch - 'a';
+            int add = (result - dp[i] + MOD) % MOD;
+            dp[i] = 1 + result;
+            result = (dp[i] + add) % MOD;
+        }
+
+        return result;
+    }
+}
