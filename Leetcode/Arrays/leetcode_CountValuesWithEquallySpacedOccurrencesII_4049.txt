@@ -1,0 +1,28 @@
+class Solution {
+    public int countSpecialIntegers(int[] nums) {
+        int n = nums.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int result = 0;
+
+        for(int i=0; i<n; i++) {
+            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+
+        for(List<Integer> list : map.values()) {
+            int k = list.size();
+            if(k < 3)
+                continue;
+            int gap = list.get(1) - list.get(0);
+            boolean isSpecial = true;
+            for(int i=2; i<k; i++) {
+                if(list.get(i) - list.get(i-1) != gap) {
+                    isSpecial = false;
+                    break;
+                }
+            }
+            if(isSpecial) result++;
+        } 
+
+        return result;
+    }
+}

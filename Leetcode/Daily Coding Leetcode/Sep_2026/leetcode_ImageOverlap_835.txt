@@ -1,0 +1,33 @@
+class Solution {
+    int n;
+    public int largestOverlap(int[][] img1, int[][] img2) {
+        n = img1.length;
+        int result = 0;
+
+        // if n = 3, check both row and col for -2 to 2 so -n+1 to n-1
+        for(int i=-n+1; i<=n-1; i++) {
+            for(int j=-n+1; j<=n-1; j++) {
+                result = Math.max(result, findOverlap(img1, img2, i, j));
+            }
+        }
+
+        return result;
+    }
+
+    public int findOverlap(int[][] img1, int[][] img2, int row, int col) {
+        int result = 0;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                int x = i + row, y = j + col;
+                if(x < 0 || x >= n || y < 0 || y >= n) {
+                    continue;
+                }
+                if(img1[i][j] == 1 && img2[x][y] == 1) {
+                    result++;
+                }
+            }
+        }
+
+        return result;
+    }
+}
