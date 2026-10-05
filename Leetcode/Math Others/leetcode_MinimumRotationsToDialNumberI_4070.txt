@@ -1,0 +1,13 @@
+class Solution {
+    public int minRotations(String s) {
+        int first = s.charAt(0) - '0';
+        int result = Math.min(first, 10 - first);
+
+        for(int i=1; i<s.length(); i++) {
+            int rotation = Math.abs(s.charAt(i) - s.charAt(i-1));
+            result += Math.min(rotation, 10 - rotation);
+        }
+
+        return result;
+    }
+}
