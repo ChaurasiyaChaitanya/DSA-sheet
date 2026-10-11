@@ -1,0 +1,24 @@
+class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        int n = nums.length;
+        int[] freq = new int[101];
+
+        for(int num : nums) {
+            freq[num]++;
+        }
+
+        int[] result = new int[n];
+        int j = 0;
+
+        while(j < n) {
+            for(int i=1; i<freq.length; i++) {
+                if(freq[i] > 0) {
+                    result[j++] = i;
+                    freq[i]--;
+                }
+            }
+        }
+        
+        return result;
+    }
+}
