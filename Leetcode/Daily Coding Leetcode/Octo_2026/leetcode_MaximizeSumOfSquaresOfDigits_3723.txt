@@ -1,0 +1,21 @@
+class Solution {
+    public String maxSumOfSquares(int num, int sum) {
+        // impossible to achieve sum if it exceeds max possible value
+        // 19 > 9 * 2
+        // Max 18 possible
+        if(sum > 9 * num) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        // Greedy filling: put as many 9s as possible from left to right.
+        for(int i=0; i<num; i++) {
+            int digit = Math.min(9, sum);
+            sb.append(digit);
+            sum -= digit;
+        }
+
+        return sum != 0 ? "" : sb.toString();
+    }
+}
