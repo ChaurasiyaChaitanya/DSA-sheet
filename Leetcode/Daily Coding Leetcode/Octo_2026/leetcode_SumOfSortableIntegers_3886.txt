@@ -1,0 +1,49 @@
+class Solution {
+    public int sortableIntegers(int[] nums) {
+        int n = nums.length;
+        int[] sorted = nums.clone();
+
+        Arrays.sort(sorted);
+
+        int result = 0;
+        for(int k=1; k<=n; k++) {
+            if(n % k == 0) {
+                boolean isValid = true;
+                for(int i=0; i<n; i+=k) {
+                    int[] arr1 = Arrays.copyOfRange(nums, i, i+k);
+                    int[] arr2 = Arrays.copyOfRange(sorted, i, i+k);
+
+                    if(!isRotation(arr1, arr2)) {
+                        isValid = false;
+                        break;
+                    }
+                }
+                if(isValid) {
+                    result += k;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isRotation(int[] arr1, int[] arr2) {
+        int n = arr1.length;
+
+        int[] temp = arr1.clone();
+        Arrays.sort(temp);
+
+        if(!Arrays.equals(temp, arr2)) {
+            return false;
+        }
+
+        int count = 0;
+        for(int i=0; i<n; i++) {
+            if(arr1[i] > arr1[(i+1)%n]) {
+                count++;
+            }
+        }
+        
+        return count <= 1;
+    } 
+}
