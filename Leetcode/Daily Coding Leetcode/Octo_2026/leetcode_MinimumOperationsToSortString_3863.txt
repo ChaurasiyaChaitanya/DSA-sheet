@@ -1,0 +1,33 @@
+class Solution {
+    public int minOperations(String s) {
+        int n = s.length();
+        char maxCh = 'a', minCh = 'z';
+
+        boolean isSorted = true;
+        for(int i=0; i<n; i++) {
+            maxCh = (char) Math.max(maxCh, s.charAt(i));
+            minCh = (char) Math.min(minCh, s.charAt(i));
+
+            if(i > 0 && s.charAt(i-1) > s.charAt(i)) {
+                isSorted = false;
+            }
+        }
+        if(isSorted) {
+            return 0;
+        }
+        if(n == 2) {
+            return -1;
+        }
+        if(s.charAt(0) == minCh || s.charAt(n-1) == maxCh) {
+            return 1;
+        }
+
+        for(int i=1; i<n-1; i++) {
+            if(s.charAt(i) == minCh || s.charAt(i) == maxCh) {
+                return 2;
+            }
+        }
+
+        return 3;
+    }
+}
