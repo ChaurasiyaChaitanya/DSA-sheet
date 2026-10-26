@@ -1,0 +1,46 @@
+class Solution {
+    int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    public int countIslands(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        int result = 0;
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] > 0) {
+                    long sum = bfs(m, n, i, j, grid);
+                    if(sum % k == 0) {
+                        result++;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+    
+    private long bfs(int m, int n, int x, int y, int[][] grid) {
+        long sum = grid[x][y];
+        grid[x][y] = 0;
+
+        Queue<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{x, y});
+
+        while(!q.isEmpty()) {
+            int[] curr = q.poll();
+            for(int[] dir : directions) {
+                int nx = curr[0] + dir[0];
+                int ny = curr[1] + dir[1];
+
+                if(nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] > 0) {
+                    sum += grid[nx][ny];
+                    grid[nx][ny] = 0;
+                    q.offer(new int[]{nx, ny});
+                }
+            }
+        }
+
+        return sum;
+    }
+}
