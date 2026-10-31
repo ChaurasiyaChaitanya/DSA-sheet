@@ -1,0 +1,24 @@
+class Solution {
+    public int[] lastVisitedCell(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int i = 0, j = 0;
+        int lastRow = 0, lastCol = 0;
+
+        while(i >=0 && i < m && j >= 0 && j < n && grid[i][j] != '.') {
+            lastRow = i;
+            lastCol = j;
+
+            int ch = grid[i][j];
+
+            if(ch == 'U') i--;
+            else if(ch == 'D') i++;
+            else if(ch == 'L') j--;
+            else j++;
+
+            grid[lastRow][lastCol] = '.';
+        }
+
+        return new int[]{lastRow, lastCol};
+    }
+}
