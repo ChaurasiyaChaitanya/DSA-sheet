@@ -1,0 +1,26 @@
+class Solution {
+    public int minMoves(int[] nums) {
+        int sum = 0, maxNum = 0;
+
+        // [4,4,5] -> sum should be 15 for equal
+        for(int num : nums) {
+            sum += num;
+            maxNum = Math.max(maxNum, num);
+        }
+        // 5 * 3 - 13    
+        return maxNum * nums.length - sum;
+
+        // int maxNum = Integer.MIN_VALUE;
+
+        // for(int num : nums) {
+        //     maxNum = Math.max(maxNum, num);
+        // }
+
+        // int result = 0;
+        // for(int num : nums) {
+        //     result += maxNum - num;
+        // }
+
+        // return result;
+    }
+}
