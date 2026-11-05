@@ -1,0 +1,37 @@
+class Solution {
+    public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+        int n = arr2.length;
+        int result = 0;
+        
+        Arrays.sort(arr2);
+
+        for(int i=0; i<arr1.length; i++) {
+            int j = binarySearch(arr2, arr1[i]);
+
+            if(j == 0) {
+                if(arr2[0] - arr1[i] > d) result++;
+            } else if(j >= n) {
+                if(arr1[i] - arr2[n-1] > d) result++;
+            } else {
+                if(arr2[j] - arr1[i] > d && arr1[i] - arr2[j-1] > d) result++;
+            }
+        }
+
+        return result;
+    }
+
+    private int binarySearch(int[] arr, int target) {
+        int low = 0, high = arr.length;
+
+        while(low < high) {
+            int mid = low + (high - low) / 2;
+            if(arr[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        return low;
+    }
+}
