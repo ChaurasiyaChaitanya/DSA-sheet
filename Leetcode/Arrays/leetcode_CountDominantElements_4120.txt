@@ -1,0 +1,27 @@
+class Solution {
+    public int countDominantElements(int[] nums) {
+        int n = nums.length;
+        int result = 0;
+
+        if(n < 2) {
+            return 1;
+        }
+        
+        if(nums[0] >= nums[1]) {
+            result++;
+        }
+
+        for(int i=1; i<n-1; i++) {
+            double avg = (nums[i-1] + nums[i+1]) / 2.0;
+            if(nums[i] >= avg) {
+                result++;
+            }
+        }
+
+        if(nums[n-1] >= nums[n-2]) {
+            result++;
+        }
+
+        return result;
+    }
+}

@@ -1,0 +1,31 @@
+class Solution {
+    public String[] assignUmbrella(int[] rain) {
+        int aliceCount = 0, bobCount = 0;
+        int n = rain.length;
+        String[] result = new String[n];
+
+        for(int i=0; i<n-1; i++) {
+            if(rain[i] == 0) {
+                result[i] = "None";
+            } else {
+                if(rain[i+1] == 0) {
+                    bobCount++;
+                    result[i] = "Bob";
+                } else {
+                    if(aliceCount <= bobCount) {
+                        aliceCount++;
+                        result[i] = "Alice";
+                    }
+                    else {
+                        bobCount++;
+                        result[i] = "Bob";
+                    }
+                }
+            }
+        }
+
+        result[n-1] = (rain[n-1] == 1 ? "Bob" : "None");
+        
+        return result;
+    }
+}
